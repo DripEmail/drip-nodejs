@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "dependencies": {
     "dotenv": "^4.0.0",
-    "request": "^2.79.0",
+    "request": "^2.79.0"
   },
   "devDependencies": {},
   "scripts": {

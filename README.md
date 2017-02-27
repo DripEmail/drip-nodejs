@@ -39,12 +39,12 @@ The `listCampaigns` method accepts an optional `status` argument to filter the r
 
 ```javascript
 // Fetching only active campaigns
-client.listCampaigns(2271521, function (error, response, body) {
+client.listCampaigns(9999999, function (error, response, body) {
   console.log(body)
 }, "active")
 
 // This fetches all campaigns by default
-client.listCampaigns(2271521, function (error, response, body) {
+client.listCampaigns(9999999, function (error, response, body) {
   console.log(body)
 })
 ```
