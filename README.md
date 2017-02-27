@@ -1,8 +1,10 @@
+[![Build Status](https://travis-ci.org/samudary/drip-api-nodejs.svg?branch=master)](https://travis-ci.org/samudary/drip-api-nodejs)
+[![Code Climate](https://codeclimate.com/github/samudary/drip-api-nodejs/badges/gpa.svg)](https://codeclimate.com/github/samudary/drip-api-nodejs)
+
+# Note: Work in progress
 # Drip Rest API Node.js Wrapper
 
 A complete Nodejs wrapper for the Drip REST API.
-
-Note: Work in progress
 
 ## How to install
 
