@@ -1,18 +1,16 @@
 [![Build Status](https://travis-ci.org/samudary/drip-api-nodejs.svg?branch=master)](https://travis-ci.org/samudary/drip-api-nodejs)
-[![Code Climate](https://codeclimate.com/github/samudary/drip-api-nodejs/badges/gpa.svg)](https://codeclimate.com/github/samudary/drip-api-nodejs)
 
-# Note: Work in progress
 # Drip Rest API Wrapper for Node.js
 
 A complete Nodejs wrapper for the Drip REST API.
 
 ## How to install
 
-`npm install drip-api-nodejs --save`
+`npm install drip-nodejs --save`
 
 ## Authentication
 
-For private use and integrations, use your API Token found here. Create a new instance of the client library with:
+For private use and integrations, use your API Token found [here](https://www.getdrip.com/user/edit). Create a new instance of the client library with:
 
 `var client = require('drip-api-nodejs')({ token: YOUR_API_KEY });`
 
@@ -20,16 +18,55 @@ For most API methods, you'll need your Drip Account ID found [here](https://www.
 
 ## Usage
 
-The following methods are currently available and are available on the client instance:
+The following methods are currently available on the client instance. You can find a detailed explanation of all methods and their effect on resources in your Drip account [here](https://www.getdrip.com/docs/rest-api).
 
-| Action                        | Method                                                                      |
-| :-------------------------    | :------------------------------------------------------------------         |
-| List accounts                 | `client.accounts(callback)`                                                 |
-| Fetch an account              | `client.accounts(account_id, callback)`                                     |
-| List subscribers              | `client.listSubscribers(accountId, callback)`                               |
-| Fetch a subscriber            | `client.fetchSubscriber(accountId, emailOrId, callback)`                    |
-| Update a subscriber           | `client.updateSubscriber(accountId, emailOrId, payload, callback)`          |
-| Unsubscribe from a campaign   | `client.unsubscribeFromCampaign(accountId, emailOrId, campaignId, callback)`|
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
+| List all accounts                    | `client.accounts(callback)`                                                  |
+| Fetch an account                     | `client.accounts(account_id, callback)`                                      |
+| List broadcasts                      | 'client.listBroadcasts(accountId, callback, status)`                         |
+| Fetch a broadcast                    | 'client.fetchBroadcast(accountId, broadcastId, callback)`                    |
+| List all campaigns                   | `client.listCampaigns(accountId, callback, status)`                          |
+| Fetch a campaign                     | `client.fetchCampaign(accountId, campaignId, callback)`                      |
+| Activate a campaign                  | `client.activateCampaign(accountId, campaignId, callback)`                   |
+| Pause a campaign                     | `client.pauseCampaign(accountId, campaignId, callback)`                      |
+| List specific campaign's subscribers | `client.listAllSubscribesToCampaign(accountId, campaignId, callback)`        |
+| Subscribe to a campaign              | `client.subscribeToCampaign(accountId, campaignId, payload, callback)`       |
+| List campaign subscriptions          | `client.subscriberCampaignSubscriptions(accountId, subscriberId, callback)`  |
+| List all conversions                 | `client.listConversions(accountId, callback, status)`                        |
+| Fetch a conversion                   | `client.fetchConversion(accountId, conversionId, callback)`                  |
+| List all custom fields               | `client.listAllCustomFields(accountId, callback)`                            |
+| Record an event                      | `client.recordEvent(accountId, payload, callback)`                           |
+| Record a batch of events             | `client.recordBatchEvents(accountId, payload, callback)`                     |
+| List all events in account           | `client.listEventActions(accountId, callback, options)`                      |
+| List all forms                       | `client.listForms(accountId, callback)`                                      |
+| Fetch a form                         | `client.fetchForm(accountId, formId, callback)`                              |
+| List all purchases                   | `client.listPurchases(accountId, emailOrId, callback)`                       |
+| Create a purchase                    | `client.createPurchase(accountId, emailOrId, payload, callback)`             |
+| Fetch a purchase                     | `client.fetchPurchase(accountId, emailOrId, purchaseId, callback)`           |
+| List all subscribers                 | `client.listSubscribers(accountId, callback)`                                |
+| Update a subscriber                  | `client.updateSubscriber(accountId, email, payload, callback)`               |
+| Fetch a subscriber                   | `client.fetchSubscriber(accountId, emailOrId, callback)`                     |
+| Unsubscribe from a campaign          | `client.unsubscribeFromCampaign(accountId, emailOrId, campaignId, callback)` |
+| Unsubscribe from all mailings        | `client.unsubscribeFromAllMailings(accountId, emailOrId, callback)`          |
+| Delete s subscriber                  | `client.deleteSubscriber(accountId, emailOrId, callback)`                    |
+| List all tags                        | `client.listAllTags(accountId, callback)`                                    |
+| Tag a subscriber                     | `client.tagSubscriber(accountId, tags, email, callback)`                     |
+| Remove tag from subscriber           | `client.removeSubscriberTag(accountId, email, tag, callback)`                |
+| Fetch authenticated user             | `client.fetchUser(callback)`                                                 |
+| List all webhooks                    | `client.listWebhooks(accountId)`                                             |
+| Fetch a webhook                      | `client.fetchWebhook(accountId, webhookId, callback)`                        |
+| Create a webhook                     | `client.createWebhook(accountId, payload, callback)`                         |
+| Destroy a webhook                    | `client.destroyWebhook(accountId, webhookId, callback)`                      |
+| List all workflows                   | `client.listAllWorkflows(accountId, callback, status)`                       |
+| Fetch a workflow                     | `client.fetchWorkflow(accountId, workflowId, callback)`                      |
+| Activate a workflow                  | `client.activateWorkflow(accountId, workflowId, callback)`                   |
+| Pause a workflow                     | `client.pauseWorkflow(accountId, workflowId, callback)`                      |
+| Start a subscriber on a workflow     | `client.startOnWorkflow(accountId, workflowId, payload, callback)`           |
+| Remove a subscriber from a workflow  | `client.removeFromWorkflow(accountId, workflowId, emailOrId, callback)`      |
+| List all workflow triggers           | `client.listTriggers(accountId, workflowId, callback)`                       |
+| Create a workflow trigger            | `client.createTrigger(accountId, workflowId, payload, callback)`             |
+| Update a trigger                     | `client.updateTrigger(accountId, workflowId, triggerId, payload, callback)`  |
 
 See the official [REST API docs](https://www.getdrip.com/docs/rest-api) for a complete API reference.
 
@@ -50,3 +87,39 @@ client.listCampaigns(9999999, function (error, response, body) {
   console.log(body)
 })
 ```
+
+### Sending a batch of events
+
+The `recordBatchEvents` methods takes a batch objects for the payload
+
+```javascript
+var batch = {
+  "batches": [{
+    "events": [
+      {
+        "email": "john@acme.com",
+        "action": "Opened a door"
+      },
+      {
+        "email": "joe@acme.com",
+        "action": "Closed a door"
+      }
+    ]
+  }]
+}
+
+client.recordBatchEvents(2271521, batch, function (error, response, body) {
+  // Do stuff
+  }
+)
+```
+
+## Contributing
+
+1. Fork it ( https://github.com/samudary/drip-nodejs/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
+
+Note: Jasmine is used for testing
