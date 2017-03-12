@@ -5,7 +5,7 @@ var client = require('../../lib/index')({ token: 'abc123' });
 var request = require('request')
 var helper = require('../../lib/helpers');
 
-describe('Accounts', function(){
+describe('Broadcasts', function(){
   beforeEach(function(){
     sinon.stub(request, 'get')
       .yields(null, { statusCode: 200 }, { accounts : {} }

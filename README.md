@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/samudary/drip-api-nodejs.svg?branch=master)](https://travis-ci.org/samudary/drip-api-nodejs)
+[![Build Status](https://travis-ci.org/samudary/drip-node-wrapper.svg?branch=master)](https://travis-ci.org/samudary/drip-node-wrapper)
 
 # Drip Rest API Wrapper for Node.js
 
@@ -6,13 +6,13 @@ A complete Nodejs wrapper for the Drip REST API.
 
 ## How to install
 
-`npm install drip-nodejs --save`
+`npm install drip-node-wrapper --save`
 
 ## Authentication
 
 For private use and integrations, use your API Token found [here](https://www.getdrip.com/user/edit). Create a new instance of the client library with:
 
-`var client = require('drip-api-nodejs')({ token: YOUR_API_KEY });`
+`var client = require('drip-node-wrapper')({ token: YOUR_API_KEY });`
 
 For most API methods, you'll need your Drip Account ID found [here](https://www.getdrip.com/settings/general). Most client methods accept an account ID argument which allows interaction with any account maintained in your Drip account.
 
@@ -116,7 +116,7 @@ client.recordBatchEvents(2271521, batch, function (error, response, body) {
 
 ## Contributing
 
-1. Fork it ( https://github.com/samudary/drip-nodejs/fork )
+1. Fork it ( https://github.com/samudary/drip-node-wrapper/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

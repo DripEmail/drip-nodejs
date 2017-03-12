@@ -1,5 +1,5 @@
 {
-  "name": "drip-nodejs",
+  "name": "drip-node-wrapper",
   "version": "0.0.1",
   "description": "An npm package for connecting to the Drip REST API",
   "main": "./lib/index.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/samudary/drip-nodejs.git"
+    "url": "git+https://github.com/samudary/drip-node-wrapper.git"
   },
   "keywords": [
     "drip",
@@ -29,7 +29,7 @@
   "author": "Robyn-Dale Samuda <robyn@yuraki.com> (https://www.twitter.com/robynsamuda)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/samudary/drip-nodejs/issues"
+    "url": "https://github.com/samudary/drip-node-wrapper/issues"
   },
-  "homepage": "https://github.com/samudary/drip-nodejs#readme"
+  "homepage": "https://github.com/samudary/drip-node-wrapper#readme"
 }
