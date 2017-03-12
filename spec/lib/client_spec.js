@@ -6,14 +6,6 @@ describe('Client', function () {
   it('should return a client instance with all methods', function () {
     var client = new Client({ token: 'abc123' });
 
-    // Accounts
-    expect(typeof client.listAccounts).toEqual('function');
-    expect(typeof client.fetchAccount).toEqual('function');
-
-    // Broadcasts
-    expect(typeof client.listBroadcasts).toEqual('function');
-    expect(typeof client.fetchBroadcast).toEqual('function');
-
     // Campaigns
     expect(typeof client.listCampaigns).toEqual('function');
     expect(typeof client.fetchCampaign).toEqual('function');
@@ -91,4 +83,4 @@ describe('Client', function () {
       })
     })
   })
-})
+});

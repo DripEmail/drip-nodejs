@@ -24,8 +24,8 @@ The following methods are currently available on the client instance. You can fi
 |--------------------------------------|------------------------------------------------------------------------------|
 | List all accounts                    | `client.accounts(callback)`                                                  |
 | Fetch an account                     | `client.accounts(account_id, callback)`                                      |
-| List broadcasts                      | 'client.listBroadcasts(accountId, callback, status)`                         |
-| Fetch a broadcast                    | 'client.fetchBroadcast(accountId, broadcastId, callback)`                    |
+| List broadcasts                      | `client.listBroadcasts(accountId, callback, status)`                         |
+| Fetch a broadcast                    | `client.fetchBroadcast(accountId, broadcastId, callback)`                    |
 | List all campaigns                   | `client.listCampaigns(accountId, callback, status)`                          |
 | Fetch a campaign                     | `client.fetchCampaign(accountId, campaignId, callback)`                      |
 | Activate a campaign                  | `client.activateCampaign(accountId, campaignId, callback)`                   |

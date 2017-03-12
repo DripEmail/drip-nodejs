@@ -8,7 +8,8 @@
     "request": "^2.79.0"
   },
   "devDependencies": {
-    "jasmine-node": "^1.14.5"
+    "jasmine-node": "^1.14.5",
+    "sinon": "^1.17.7"
   },
   "scripts": {
     "test": "./node_modules/.bin/jasmine-node spec"
@@ -20,9 +21,12 @@
   "keywords": [
     "drip",
     "api",
-    "rest"
+    "rest",
+    "email",
+    "marketing",
+    "getdrip"
   ],
-  "author": "Robyn-Dale Samuda",
+  "author": "Robyn-Dale Samuda <robyn@yuraki.com> (https://www.twitter.com/robynsamuda)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/samudary/drip-nodejs/issues"
