@@ -3,16 +3,20 @@
 var Client = require('../../lib/index');
 
 describe('Client', function () {
+  it('should contain the correct headers', function () {
+    var client = new Client({ token: 'abc123' });
+    expect(client.token).toEqual('abc123');
+    expect(client.headers).toEqual({
+      "content-type": "application/vnd.api+json",
+      "authorization": 'abc123',
+      "User-Agent": "Drip NodeJS Wrapper"
+    });
+  });
+
   it('should return a client instance with all methods', function () {
     var client = new Client({ token: 'abc123' });
 
     // Campaigns
-    expect(typeof client.listCampaigns).toEqual('function');
-    expect(typeof client.fetchCampaign).toEqual('function');
-    expect(typeof client.activateCampaign).toEqual('function');
-    expect(typeof client.pauseCampaign).toEqual('function');
-    expect(typeof client.listAllSubscribesToCampaign).toEqual('function');
-    expect(typeof client.subscribeToCampaign).toEqual('function');
     expect(typeof client.subscriberCampaignSubscriptions).toEqual('function');
 
     // Conversions
@@ -70,17 +74,5 @@ describe('Client', function () {
     expect(typeof client.listTriggers).toEqual('function');
     expect(typeof client.createTrigger).toEqual('function');
     expect(typeof client.updateTrigger).toEqual('function');
-  })
-
-  describe('request header', function () {
-    it('should contain the correct headers', function () {
-      var client = new Client({ token: 'abc123' });
-      expect(client.token).toEqual('abc123');
-      expect(client.headers).toEqual({
-        "content-type": "application/vnd.api+json",
-        "authorization": 'abc123',
-        "User-Agent": "Drip NodeJS Wrapper"
-      })
-    })
-  })
+  });
 });
