@@ -5,8 +5,7 @@ var sinon = require('sinon')
   , request = require('request')
   , helper = require('../../lib/helpers');
 
-describe('Custom fields', function () {
-  var accountId = 123;
+describe('User', function () {
 
   beforeEach(function () {
     sinon.stub(request, 'get')
@@ -19,14 +18,14 @@ describe('Custom fields', function () {
   });
 
   it('should provide the correct base URL', function () {
-    expect(helper.customFieldsUrl(accountId))
-      .toBe('https://api.getdrip.com/v2/123/custom_field_identifiers/')
+    expect(helper.userUrl())
+      .toBe('https://api.getdrip.com/v2/user/')
   })
 
-  it('should list all account-wide custom fields and call request with get', function (done) {
-    expect(typeof client.listAllCustomFields).toEqual('function');
+  it('should fetch currently authenticated user and call request with get', function (done) {
+    expect(typeof client.fetchUser).toEqual('function');
 
-    client.listAllCustomFields(accountId, function(error, response, body) {
+    client.fetchUser(function(error, response, body) {
       expect(response.statusCode).toBe(200);
       expect(request.get.callCount).toBe(1);
     });
