@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/samudary/drip-node-wrapper.svg?branch=master)](https://travis-ci.org/samudary/drip-nodejs)
+[![Build Status](https://travis-ci.org/samudary/drip-nodejs.svg?branch=master)](https://travis-ci.org/samudary/drip-nodejs)
 
 # Drip Rest API Wrapper for Node.js
 
