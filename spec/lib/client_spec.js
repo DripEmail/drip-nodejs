@@ -16,13 +16,6 @@ describe('Client', function () {
   it('should return a client instance with all methods', function () {
     var client = new Client({ token: 'abc123' });
 
-    // Campaigns
-    expect(typeof client.subscriberCampaignSubscriptions).toEqual('function');
-
-    // Conversions
-    expect(typeof client.listConversions).toEqual('function');
-    expect(typeof client.fetchConversion).toEqual('function');
-
     // Custom fields
     expect(typeof client.listAllCustomFields).toEqual('function');
 
