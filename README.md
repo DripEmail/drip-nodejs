@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/samudary/drip-node-wrapper.svg?branch=master)](https://travis-ci.org/samudary/drip-node-wrapper)
+[![Build Status](https://travis-ci.org/samudary/drip-node-wrapper.svg?branch=master)](https://travis-ci.org/samudary/drip-nodejs)
 
 # Drip Rest API Wrapper for Node.js
 
@@ -6,13 +6,13 @@ A complete Nodejs wrapper for the Drip REST API.
 
 ## How to install
 
-`npm install drip-node-wrapper --save`
+`npm install drip-nodejs --save`
 
 ## Authentication
 
 For private use and integrations, use your API Token found [here](https://www.getdrip.com/user/edit). Create a new instance of the client library with:
 
-`var client = require('drip-node-wrapper')({ token: YOUR_API_KEY });`
+`var client = require('drip-nodejs')({ token: YOUR_API_KEY });`
 
 For most API methods, you'll need your Drip Account ID found [here](https://www.getdrip.com/settings/general). Most client methods accept an account ID argument which allows interaction with any account maintained in your Drip account.
 
@@ -20,50 +20,107 @@ For most API methods, you'll need your Drip Account ID found [here](https://www.
 
 The following methods are currently available on the client instance. You can find a detailed explanation of all methods and their effect on resources in your Drip account [here](https://www.getdrip.com/docs/rest-api).
 
+### Accounts
 | Action                               | Method                                                                       |
 |--------------------------------------|------------------------------------------------------------------------------|
 | List all accounts                    | `client.accounts(callback)`                                                  |
 | Fetch an account                     | `client.accounts(account_id, callback)`                                      |
+
+### Broadcats
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List broadcasts                      | `client.listBroadcasts(accountId, callback, status)`                         |
 | Fetch a broadcast                    | `client.fetchBroadcast(accountId, broadcastId, callback)`                    |
+
+### Campaigns
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List all campaigns                   | `client.listCampaigns(accountId, callback, status)`                          |
 | Fetch a campaign                     | `client.fetchCampaign(accountId, campaignId, callback)`                      |
 | Activate a campaign                  | `client.activateCampaign(accountId, campaignId, callback)`                   |
 | Pause a campaign                     | `client.pauseCampaign(accountId, campaignId, callback)`                      |
 | List specific campaign's subscribers | `client.listAllSubscribesToCampaign(accountId, campaignId, callback)`        |
 | Subscribe to a campaign              | `client.subscribeToCampaign(accountId, campaignId, payload, callback)`       |
+
+### Campaign subscriptions
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List campaign subscriptions          | `client.subscriberCampaignSubscriptions(accountId, subscriberId, callback)`  |
+
+### Conversions
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List all conversions                 | `client.listConversions(accountId, callback, status)`                        |
 | Fetch a conversion                   | `client.fetchConversion(accountId, conversionId, callback)`                  |
+
+### Custom fields
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List all custom fields               | `client.listAllCustomFields(accountId, callback)`                            |
+
+### Events
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | Record an event                      | `client.recordEvent(accountId, payload, callback)`                           |
 | Record a batch of events             | `client.recordBatchEvents(accountId, payload, callback)`                     |
 | List all events in account           | `client.listEventActions(accountId, callback, options)`                      |
+
+### Forms
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List all forms                       | `client.listForms(accountId, callback)`                                      |
 | Fetch a form                         | `client.fetchForm(accountId, formId, callback)`                              |
+
+### Purchases
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List all purchases                   | `client.listPurchases(accountId, emailOrId, callback)`                       |
 | Create a purchase                    | `client.createPurchase(accountId, emailOrId, payload, callback)`             |
 | Fetch a purchase                     | `client.fetchPurchase(accountId, emailOrId, purchaseId, callback)`           |
+
+### Subscribers
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List all subscribers                 | `client.listSubscribers(accountId, callback)`                                |
 | Update a subscriber                  | `client.updateSubscriber(accountId, email, payload, callback)`               |
 | Fetch a subscriber                   | `client.fetchSubscriber(accountId, emailOrId, callback)`                     |
 | Unsubscribe from a campaign          | `client.unsubscribeFromCampaign(accountId, emailOrId, campaignId, callback)` |
 | Unsubscribe from all mailings        | `client.unsubscribeFromAllMailings(accountId, emailOrId, callback)`          |
 | Delete s subscriber                  | `client.deleteSubscriber(accountId, emailOrId, callback)`                    |
+
+### Tags
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List all tags                        | `client.listAllTags(accountId, callback)`                                    |
 | Tag a subscriber                     | `client.tagSubscriber(accountId, tags, email, callback)`                     |
 | Remove tag from subscriber           | `client.removeSubscriberTag(accountId, email, tag, callback)`                |
+
+### User
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | Fetch authenticated user             | `client.fetchUser(callback)`                                                 |
+
+### Webhooks
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List all webhooks                    | `client.listWebhooks(accountId)`                                             |
 | Fetch a webhook                      | `client.fetchWebhook(accountId, webhookId, callback)`                        |
 | Create a webhook                     | `client.createWebhook(accountId, payload, callback)`                         |
 | Destroy a webhook                    | `client.destroyWebhook(accountId, webhookId, callback)`                      |
+
+### Workflows
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List all workflows                   | `client.listAllWorkflows(accountId, callback, status)`                       |
 | Fetch a workflow                     | `client.fetchWorkflow(accountId, workflowId, callback)`                      |
 | Activate a workflow                  | `client.activateWorkflow(accountId, workflowId, callback)`                   |
 | Pause a workflow                     | `client.pauseWorkflow(accountId, workflowId, callback)`                      |
 | Start a subscriber on a workflow     | `client.startOnWorkflow(accountId, workflowId, payload, callback)`           |
 | Remove a subscriber from a workflow  | `client.removeFromWorkflow(accountId, workflowId, emailOrId, callback)`      |
+
+### Workflow triggers
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
 | List all workflow triggers           | `client.listTriggers(accountId, workflowId, callback)`                       |
 | Create a workflow trigger            | `client.createTrigger(accountId, workflowId, payload, callback)`             |
 | Update a trigger                     | `client.updateTrigger(accountId, workflowId, triggerId, payload, callback)`  |
@@ -90,7 +147,7 @@ client.listCampaigns(9999999, function (error, response, body) {
 
 ### Sending a batch of events
 
-The `recordBatchEvents` methods takes a batch objects for the payload
+The `recordBatchEvents` methods takes a batch object for the payload and is most suitable for sending thousands of events.
 
 ```javascript
 var batch = {
@@ -104,6 +161,7 @@ var batch = {
         "email": "joe@acme.com",
         "action": "Closed a door"
       }
+      // Lots more events...
     ]
   }]
 }
@@ -116,7 +174,7 @@ client.recordBatchEvents(2271521, batch, function (error, response, body) {
 
 ## Contributing
 
-1. Fork it ( https://github.com/samudary/drip-node-wrapper/fork )
+1. Fork it ( https://github.com/samudary/drip-nodejs/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
