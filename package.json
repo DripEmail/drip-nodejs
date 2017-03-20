@@ -1,6 +1,6 @@
 {
   "name": "drip-nodejs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A complete NodeJS wrapper for connecting to the Drip v2 REST API",
   "main": "./lib/index.js",
   "dependencies": {
