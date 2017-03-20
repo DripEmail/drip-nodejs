@@ -23,8 +23,8 @@ The following methods are currently available on the client instance. You can fi
 ### Accounts
 | Action                               | Method                                                                       |
 |--------------------------------------|------------------------------------------------------------------------------|
-| List all accounts                    | `client.accounts(callback)`                                                  |
-| Fetch an account                     | `client.accounts(account_id, callback)`                                      |
+| List all accounts                    | `client.listAccounts(callback)`                                                  |
+| Fetch an account                     | `client.fetchAccount(account_id, callback)`                                      |
 
 ### Broadcats
 | Action                               | Method                                                                       |
