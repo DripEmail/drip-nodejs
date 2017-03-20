@@ -82,7 +82,7 @@ The following methods are currently available on the client instance. You can fi
 | Action                               | Method                                                                       |
 |--------------------------------------|------------------------------------------------------------------------------|
 | List all subscribers                 | `client.listSubscribers(accountId, callback)`                                |
-| Update a subscriber                  | `client.updateSubscriber(accountId, email, payload, callback)`               |
+| Update a subscriber                  | `client.updateSubscriber(accountId, payload, callback)`               |
 | Fetch a subscriber                   | `client.fetchSubscriber(accountId, emailOrId, callback)`                     |
 | Unsubscribe from a campaign          | `client.unsubscribeFromCampaign(accountId, emailOrId, campaignId, callback)` |
 | Unsubscribe from all mailings        | `client.unsubscribeFromAllMailings(accountId, emailOrId, callback)`          |
