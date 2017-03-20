@@ -46,7 +46,7 @@ describe('Subscribers', function () {
   it('should update a subscriber and call request with post', function (done) {
     expect(typeof client.updateSubscriber).toEqual('function');
 
-    client.updateSubscriber(accountId, email, { "test_field": "value" }, function (error, response, body) {
+    client.updateSubscriber(accountId, { "test_field": "value" }, function (error, response, body) {
       expect(response.statusCode).toBe(204);
       expect(request.post.callCount).toBe(1);
     });
