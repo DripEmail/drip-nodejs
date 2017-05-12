@@ -14,6 +14,10 @@ For private use and integrations, use your API Token found [here](https://www.ge
 
 `var client = require('drip-nodejs')({ token: YOUR_API_KEY });`
 
+For public integrations with an OAuth2 application registered with Drip, you'll need to specify the type of token you're passing (e.g. "Bearer"):
+
+`var client = require('drip-nodejs')({ token: YOUR_ACCESS_TOKEN, tokenType: TOKEN_TYPE });`
+
 For most API methods, you'll need your Drip Account ID found [here](https://www.getdrip.com/settings/general). Most client methods accept an account ID argument which allows interaction with any account maintained in your Drip account.
 
 ## Usage
