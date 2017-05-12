@@ -21,7 +21,7 @@ describe('Client', function () {
 
   it('should add bearer auth authorization header when tokenType is "Bearer"', function () {
     var client = new Client({ token: token, tokenType: "Bearer" });
-    expect(client.headers.authorization).toEqual("Bearer " + new Buffer(token).toString('base64'));
+    expect(client.headers.authorization).toEqual("Bearer " + token);
   });
 
   it('should add user-agent header', function () {
