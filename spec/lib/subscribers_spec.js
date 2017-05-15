@@ -97,9 +97,9 @@ describe('Subscribers', function () {
 
   describe('batch functions', function() {
     var payload = {
-      batches: {
+      batches: [{
         subscribers: new Array(1001)
-      }
+      }]
     };
 
     beforeEach(function () {
