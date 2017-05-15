@@ -116,7 +116,7 @@ describe('Subscribers', function () {
       expect(typeof client.updateBatchSubscribers).toEqual('function');
 
       client.updateBatchSubscribers(accountId, payload, function (errors, responses, bodies) {
-        expect(errors).toEqual([null, null]);
+        expect(errors).toBe(null);
         expect(responses.length).toBe(2);
         expect(responses[0].statusCode).toBe(201);
         expect(responses[1].statusCode).toBe(201);
