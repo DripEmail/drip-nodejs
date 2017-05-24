@@ -90,7 +90,8 @@ The following methods are currently available on the client instance. You can fi
 | Fetch a subscriber                   | `client.fetchSubscriber(accountId, emailOrId, callback)`                     |
 | Unsubscribe from a campaign          | `client.unsubscribeFromCampaign(accountId, emailOrId, campaignId, callback)` |
 | Unsubscribe from all mailings        | `client.unsubscribeFromAllMailings(accountId, emailOrId, callback)`          |
-| Delete s subscriber                  | `client.deleteSubscriber(accountId, emailOrId, callback)`                    |
+| Delete a subscriber                  | `client.deleteSubscriber(accountId, emailOrId, callback)`                    |
+| Update a batch of subscribers        | `client.updateBatchSubscribers(accountId, payload, callback)`                |
 
 ### Tags
 | Action                               | Method                                                                       |
@@ -147,6 +148,37 @@ client.listCampaigns(9999999, function (error, response, body) {
 client.listCampaigns(9999999, function (error, response, body) {
   console.log(body)
 })
+```
+
+### Updating a batch of subscribers
+
+The `updateBatchSubscribers` method takes a batch object for the payload and is most suitable for sending thousands of subscriber updates.
+
+Because Drip's batch APIs support a maximum of 1000 records, this method breaks the payload into *N* "batches" and calls the API *N* times. The callback is invoked only after all batches' API calls have returned, and receives *N*-sized arrays for values (i.e. `errors`, `responses`, and `bodies`).
+
+It is the responsibility of the caller to interpret these values and handle any errors.
+
+```javascript
+var batch = {
+  "batches": [{
+    "subscribers": [
+      {
+        "email": "john@acme.com",
+        "tags": "Dog Person"
+      },
+      {
+        "email": "joe@acme.com",
+        "tags": "Cat Person"
+      }
+      // Lots more subscribers...
+    ]
+  }]
+}
+
+client.updateBatchSubscribers(2271521, batch, function (errors, responses, bodies) {
+  // Do stuff
+  }
+)
 ```
 
 ### Sending a batch of events
