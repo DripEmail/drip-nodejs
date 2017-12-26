@@ -1,6 +1,9 @@
 'use strict';
 
-var Client = require('../../lib/index');
+let Client = require('../../lib/index');
+let VERSION = require('../../lib/version');
+let sinon = require('sinon');
+let rp = require('request-promise');
 
 describe('Client', function () {
   var token = 'abc123';
@@ -26,6 +29,6 @@ describe('Client', function () {
 
   it('should add user-agent header', function () {
     var client = new Client({ token: token });
-    expect(client.headers["User-Agent"]).toEqual("Drip NodeJS Wrapper");
+    expect(client.headers["User-Agent"]).toEqual(`Drip NodeJS Wrapper ${VERSION}`);
   });
 });
