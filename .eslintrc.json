@@ -5,5 +5,11 @@
             "error",
             "never"
         ]
-    }
+    },
+    "env": {
+        "jasmine": true
+    },
+    "plugins": [
+        "jasmine"
+    ]
 }
