@@ -1,61 +1,130 @@
-'use strict';
+const sinon = require('sinon');
+const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 
-var sinon = require('sinon')
-  , client = require('../../lib/index')({ token: 'abc123' })
-  , request = require('request')
-  , helper = require('../../lib/helpers');
+const idOrEmail = 'someone@example.com';
+const purchaseId = 444555;
+const payload = {
+  properties: {
+    address: "123 Anywhere St"
+  },
+  items: [
+    {
+      id: "8888888",
+      product_id: "765432",
+      sku: "4444",
+      amount: 4900,
+      name: "Canoe",
+      quantity: 1,
+      properties: {
+        color: "black"
+      }
+    }
+  ],
+  occurred_at: "2013-06-21T10:31:58Z"
+};
 
-describe('Purchases', function () {
-  var accountId = 123;
-  var emailOrId = "someone@example.com";
-  var purchaseId = 444;
-
-  beforeEach(function () {
-    sinon.stub(request, 'get')
-      .yields(null, { statusCode: 200 }, { accounts : {} }
-    );
-    sinon.stub(request, 'post')
-      .yields(null, { statusCode: 204 }, {}
-    );
+describe('Purchases with callback', () => {
+  beforeEach(() => {
+    sinon.stub(client, 'request')
+      .yields(null, { statusCode: 200 }, { purchases: {} });
   });
 
-  afterEach(function () {
-    request.get.restore();
-    request.post.restore();
+  afterEach(() => {
+    client.request.restore();
   });
 
-  it('should provide the correct base URL', function () {
-    expect(helper.purchasesUrl(accountId, emailOrId))
-      .toBe('https://api.getdrip.com/v2/123/subscribers/someone@example.com/purchases/')
-  })
-
-  it('should record a purchase event and call request with post', function (done) {
+  it('should record a purchase event and call request with post', (done) => {
     expect(typeof client.createPurchase).toEqual('function');
 
-    client.createPurchase(accountId, emailOrId, { "name": "test" }, function(error, response, body) {
-      expect(response.statusCode).toBe(204);
-      expect(request.post.callCount).toBe(1);
+    client.createPurchase(idOrEmail, payload, (error, response) => {
+      expect(response.statusCode).toBe(200);
+      expect(client.request.callCount).toBe(1);
     });
     done();
   });
 
-  it('should list all purchase events for a subscriber and call request with get', function (done) {
+  it('should list all purchase events for a subscriber and call request with get', (done) => {
     expect(typeof client.listPurchases).toEqual('function');
 
-    client.listPurchases(accountId, emailOrId, function (error, response, body) {
+    client.listPurchases(idOrEmail, {}, (error, response) => {
       expect(response.statusCode).toBe(200);
-      expect(request.get.callCount).toBe(1);
+      expect(client.request.callCount).toBe(1);
     });
     done();
   });
 
-  it('should fetch a specific purchase event and call request with get', function (done) {
+  it('should fetch a specific purchase event and call request with get', (done) => {
     expect(typeof client.fetchPurchase).toEqual('function');
 
-    client.fetchPurchase(accountId, emailOrId, purchaseId, function (error, response, body) {
+    client.fetchPurchase(idOrEmail, purchaseId, (error, response) => {
       expect(response.statusCode).toBe(200);
-      expect(request.get.callCount).toBe(1);
+      expect(client.request.callCount).toBe(1);
     });
     done();
+  });
+});
+
+describe('Purchases with Promise', () => {
+  const expectedResponse = {
+    statusCode: 200,
+    body: {
+      purchases: [{}]
+    }
+  };
+
+  const failTest = (error) => {
+    expect(error).toBeUndefined();
+  };
+
+  beforeEach(() => {
+    sinon.stub(client, 'request').resolves(expectedResponse);
+    spyOn(client, 'get').and.callThrough();
+    spyOn(client, 'post').and.callThrough();
+  });
+
+  afterEach(() => {
+    client.request.restore();
+  });
+
+  it('should create a purchase', (done) => {
+    expect(typeof client.createPurchase).toEqual('function');
+
+    client.createPurchase(idOrEmail, payload)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.post).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/purchases', { payload }, undefined);
+  });
+
+  it('should list purchases for a subscriber', (done) => {
+    expect(typeof client.listPurchases).toEqual('function');
+
+    client.listPurchases(idOrEmail, {})
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.get).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/purchases', { qs: {} }, undefined);
+  });
+
+  it('should fetch a purchase', (done) => {
+    expect(typeof client.fetchPurchase).toEqual('function');
+
+    client.fetchPurchase(idOrEmail, purchaseId)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.get).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/purchases/444555', {}, undefined);
   });
 });
