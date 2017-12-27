@@ -2,6 +2,8 @@ const sinon = require('sinon');
 const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 const helper = require('../../lib/helpers');
 
+const broadcastId = 8888888;
+
 describe('Broadcasts with callback', () => {
   beforeEach(() => {
     sinon.stub(client, 'request')
@@ -29,7 +31,7 @@ describe('Broadcasts with callback', () => {
   it('should fetch a broadcast and call request with get', (done) => {
     expect(typeof client.fetchBroadcast).toEqual('function');
 
-    client.fetchBroadcast(8888888, (error, response) => {
+    client.fetchBroadcast(broadcastId, (error, response) => {
       expect(response.statusCode).toBe(200);
       expect(client.request.callCount).toBe(1);
     });
@@ -69,13 +71,13 @@ describe('Broadcasts with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/broadcasts/', { qs: { status: 'all' } }, undefined);
+    expect(client.get).toHaveBeenCalledWith('9999999/broadcasts/', { qs: {} }, undefined);
   });
 
   it('should fetch broadcast', (done) => {
     expect(typeof client.fetchBroadcast).toEqual('function');
 
-    client.fetchBroadcast(8888888)
+    client.fetchBroadcast(broadcastId)
       .then((response) => {
         expect(response.statusCode).toBe(200);
         expect(client.request.callCount).toBe(1);
