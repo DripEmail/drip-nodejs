@@ -5,4 +5,4 @@ node_js:
 before_script:
   - "npm i -g jasmine eslint eslint-config-airbnb-base eslint-plugin-import sinon"
 script:
-  - "eslint **/*.js"
+  - "eslint ."

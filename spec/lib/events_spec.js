@@ -34,7 +34,7 @@ describe('Events', () => {
   it('should list all account event actions and call request with get', (done) => {
     expect(typeof client.listEventActions).toEqual('function');
 
-    client.listEventActions({}, (error, response, body) => {
+    client.listEventActions({}, (error, response) => {
       expect(response.statusCode).toBe(200);
       expect(client.request.callCount).toBe(1);
     });
