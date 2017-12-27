@@ -11,7 +11,7 @@ describe('Accounts with callback', function () {
     );
   });
 
-  afterEach(function () {
+  afterEach(function() {
     client.request.restore();
   });
 

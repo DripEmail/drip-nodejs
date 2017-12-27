@@ -1,19 +1,18 @@
 'use strict';
 
-var sinon = require('sinon')
-  , client = require('../../lib/index')({ token: 'abc123' })
-  , request = require('request')
-  , helper = require('../../lib/helpers');
+const sinon = require('sinon');
+const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
+const helper = require('../../lib/helpers');
 
-describe('Broadcasts', function (){
-  beforeEach(function (){
-    sinon.stub(request, 'get')
-      .yields(null, { statusCode: 200 }, { accounts : {} }
+describe('Broadcasts with callback', function (){
+  beforeEach(function(){
+    sinon.stub(client, 'request')
+      .yields(null, { statusCode: 200 }, { broadcasts : {} }
     );
   });
 
-  afterEach(function () {
-    request.get.restore();
+  afterEach(function() {
+    client.request.restore();
   });
 
   it('should provide the correct base URL', function () {
@@ -23,19 +22,19 @@ describe('Broadcasts', function (){
   it('should list broadcasts and call request with get', function (done) {
     expect(typeof client.listBroadcasts).toEqual('function');
 
-    client.listBroadcasts(9999999, function (error, response, body) {
+    client.listBroadcasts({status: 'all'}, function (error, response, body) {
       expect(response.statusCode).toBe(200);
-      expect(request.get.callCount).toBe(1);
-    }, "active");
-    done()
+      expect(client.request.callCount).toBe(1);
+    });
+    done();
   });
 
   it('should fetch a broadcast and call request with get', function (done) {
     expect(typeof client.fetchBroadcast).toEqual('function');
 
-    client.fetchBroadcast(9999999, 8888888, function (error, response, body) {
+    client.fetchBroadcast(8888888, function (error, response, body) {
       expect(response.statusCode).toBe(200);
-      expect(request.get.callCount).toBe(1);
+      expect(client.request.callCount).toBe(1);
     });
     done();
   });
