@@ -1,95 +1,184 @@
-'use strict';
+const sinon = require('sinon');
+const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 
-var sinon = require('sinon')
-  , client = require('../../lib/index')({ token: 'abc123' })
-  , request = require('request')
-  , helper = require('../../lib/helpers');
+const idOrEmail = 'test@example.com';
+const workflowId = 444555;
 
-describe('Workflows', function () {
-  var accountId = 123;
-  var workflowId = 456;
-  var email = "test@example.com";
-
-  beforeEach(function () {
-    sinon.stub(request, 'get')
-      .yields(null, { statusCode: 200 }, { accounts : {} }
-    );
-    sinon.stub(request, 'post')
-      .yields(null, { statusCode: 204 }, {}
-    );
-    sinon.stub(request, 'del')
-      .yields(null, { statusCode: 204 }, {}
-    );
+describe('Workflows with callback', () => {
+  beforeEach(() => {
+    sinon.stub(client, 'request')
+      .yields(null, { statusCode: 200 }, { accounts: {} });
   });
 
-  afterEach(function () {
-    request.get.restore();
-    request.post.restore();
-    request.del.restore();
+  afterEach(() => {
+    client.request.restore();
   });
 
-  it('should provide the correct base URL', function () {
-    expect(helper.workflowUrl(accountId, workflowId))
-      .toBe('https://api.getdrip.com/v2/123/workflows/456')
-  })
-
-  it('should list all workflows and call request with get', function (done) {
+  it('should list all workflows and call request with get', (done) => {
     expect(typeof client.listAllWorkflows).toEqual('function');
 
-    client.listAllWorkflows(accountId, function(error, response, body) {
+    client.listAllWorkflows({}, (error, response) => {
       expect(response.statusCode).toBe(200);
-      expect(request.get.callCount).toBe(1);
-    }, "active");
+      expect(client.request.callCount).toBe(1);
+    });
     done();
   });
 
-  it('should fetch a specific workflow and call request with get', function (done) {
+  it('should fetch a specific workflow and call request with get', (done) => {
     expect(typeof client.fetchWorkflow).toEqual('function');
 
-    client.fetchWorkflow(accountId, workflowId, function (error, response, body) {
+    client.fetchWorkflow(workflowId, (error, response) => {
       expect(response.statusCode).toBe(200);
-      expect(request.get.callCount).toBe(1);
+      expect(client.request.callCount).toBe(1);
     });
     done();
   });
 
-  it('should activate a workflow and call request with post', function (done) {
+  it('should activate a workflow and call request with post', (done) => {
     expect(typeof client.activateWorkflow).toEqual('function');
 
-    client.activateWorkflow(accountId, workflowId, function (error, response, body) {
-      expect(response.statusCode).toBe(204);
-      expect(request.post.callCount).toBe(1);
+    client.activateWorkflow(workflowId, (error, response) => {
+      expect(response.statusCode).toBe(200);
+      expect(client.request.callCount).toBe(1);
     });
     done();
   });
 
-  it('should pause a workflow and call request with post', function (done) {
+  it('should pause a workflow and call request with post', (done) => {
     expect(typeof client.pauseWorkflow).toEqual('function');
 
-    client.pauseWorkflow(accountId, workflowId, function (error, response, body) {
-      expect(response.statusCode).toBe(204);
-      expect(request.post.callCount).toBe(1);
+    client.pauseWorkflow(workflowId, (error, response) => {
+      expect(response.statusCode).toBe(200);
+      expect(client.request.callCount).toBe(1);
     });
     done();
   });
 
-  it('should start a subscriber a workflow and call request with post', function (done) {
+  it('should start a subscriber a workflow and call request with post', (done) => {
     expect(typeof client.startOnWorkflow).toEqual('function');
 
-    client.startOnWorkflow(accountId, workflowId, { "email": "test@example.com" }, function (error, response, body) {
-      expect(response.statusCode).toBe(204);
-      expect(request.post.callCount).toBe(1);
+    client.startOnWorkflow(workflowId, idOrEmail, (error, response) => {
+      expect(response.statusCode).toBe(200);
+      expect(client.request.callCount).toBe(1);
     });
     done();
   });
 
-  it('should remove a subscriber from a workflow and call request with delete', function (done) {
+  it('should remove a subscriber from a workflow and call request with delete', (done) => {
     expect(typeof client.removeFromWorkflow).toEqual('function');
 
-    client.removeFromWorkflow(accountId, workflowId, email, function (error, response, body) {
-      expect(response.statusCode).toBe(204);
-      expect(request.del.callCount).toBe(1);
+    client.removeFromWorkflow(workflowId, idOrEmail, (error, response) => {
+      expect(response.statusCode).toBe(200);
+      expect(client.request.callCount).toBe(1);
     });
     done();
+  });
+});
+
+describe('Workflows with promise', () => {
+  const expectedResponse = {
+    statusCode: 200,
+    body: {
+      workflows: [{}]
+    }
+  };
+
+  const failTest = (error) => {
+    expect(error).toBeUndefined();
+  };
+
+  beforeEach(() => {
+    sinon.stub(client, 'request').resolves(expectedResponse);
+    spyOn(client, 'get').and.callThrough();
+    spyOn(client, 'post').and.callThrough();
+    spyOn(client, 'delete').and.callThrough();
+  });
+
+  afterEach(() => {
+    client.request.restore();
+  });
+
+  it('should list all workflows', (done) => {
+    expect(typeof client.listAllWorkflows).toEqual('function');
+
+    client.listAllWorkflows()
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.get).toHaveBeenCalledWith('9999999/workflows/', { qs: {} }, undefined);
+  });
+
+  it('should fetch a workflow', (done) => {
+    expect(typeof client.fetchWorkflow).toEqual('function');
+
+    client.fetchWorkflow(workflowId)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.get).toHaveBeenCalledWith('9999999/workflows/444555', {}, undefined);
+  });
+
+  it('should activate a workflow', (done) => {
+    expect(typeof client.activateWorkflow).toEqual('function');
+
+    client.activateWorkflow(workflowId)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.post).toHaveBeenCalledWith('9999999/workflows/444555/activate', {}, undefined);
+  });
+
+  it('should pause a workflow', (done) => {
+    expect(typeof client.pauseWorkflow).toEqual('function');
+
+    client.pauseWorkflow(workflowId)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.post).toHaveBeenCalledWith('9999999/workflows/444555/pause', {}, undefined);
+  });
+
+  it('should start a subscriber on a workflow', (done) => {
+    expect(typeof client.startOnWorkflow).toEqual('function');
+
+    client.startOnWorkflow(workflowId, { email: 'test@example.com' })
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.post).toHaveBeenCalledWith('9999999/workflows/444555/subscribers', { payload: { email: 'test@example.com' } }, undefined);
+  });
+
+  it('should remove a subscriber on a workflow', (done) => {
+    expect(typeof client.removeFromWorkflow).toEqual('function');
+
+    client.removeFromWorkflow(workflowId, idOrEmail)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.delete).toHaveBeenCalledWith('9999999/workflows/444555/subscribers/test%40example.com', {}, undefined);
   });
 });

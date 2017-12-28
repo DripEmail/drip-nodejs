@@ -17,11 +17,6 @@ describe('User', function () {
     request.get.restore();
   });
 
-  it('should provide the correct base URL', function () {
-    expect(helper.userUrl())
-      .toBe('https://api.getdrip.com/v2/user/')
-  })
-
   it('should fetch currently authenticated user and call request with get', function (done) {
     expect(typeof client.fetchUser).toEqual('function');
 

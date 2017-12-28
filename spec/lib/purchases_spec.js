@@ -5,22 +5,22 @@ const idOrEmail = 'someone@example.com';
 const purchaseId = 444555;
 const payload = {
   properties: {
-    address: "123 Anywhere St"
+    address: '123 Anywhere St'
   },
   items: [
     {
-      id: "8888888",
-      product_id: "765432",
-      sku: "4444",
+      id: '8888888',
+      product_id: '765432',
+      sku: '4444',
       amount: 4900,
-      name: "Canoe",
+      name: 'Canoe',
       quantity: 1,
       properties: {
-        color: "black"
+        color: 'black'
       }
     }
   ],
-  occurred_at: "2013-06-21T10:31:58Z"
+  occurred_at: '2013-06-21T10:31:58Z'
 };
 
 describe('Purchases with callback', () => {

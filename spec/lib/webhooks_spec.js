@@ -27,11 +27,6 @@ describe('Webhooks', function () {
     request.del.restore();
   });
 
-  it('should provide the correct base URL', function () {
-    expect(helper.webhooksUrl(accountId))
-      .toBe('https://api.getdrip.com/v2/123/webhooks/')
-  })
-
   it('should list all webhooks and call request with get', function (done) {
     expect(typeof client.listWebhooks).toEqual('function');
 

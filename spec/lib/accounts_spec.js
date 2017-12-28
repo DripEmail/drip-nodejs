@@ -12,10 +12,6 @@ describe('Accounts with callback', () => {
     client.request.restore();
   });
 
-  it('should provide the correct base URL', () => {
-    expect(helper.accountsUrl()).toBe('https://api.getdrip.com/v2/accounts/');
-  });
-
   it('should list accounts and call request with get', (done) => {
     expect(typeof client.listAccounts).toEqual('function');
 

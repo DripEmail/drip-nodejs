@@ -28,11 +28,6 @@ describe('Workflow triggers', function () {
     request.put.restore();
   });
 
-  it('should provide the correct base URL', function () {
-    expect(helper.workflowTriggerUrl(accountId, workflowId))
-      .toBe('https://api.getdrip.com/v2/123/workflows/456/triggers/')
-  })
-
   it('should list all workflow triggers and call request with get', function (done) {
     expect(typeof client.listTriggers).toEqual('function');
 

@@ -28,11 +28,6 @@ describe('Tags', function () {
     request.del.restore();
   });
 
-  it('should provide the correct base URL', function () {
-    expect(helper.tagsUrl(accountId))
-      .toBe('https://api.getdrip.com/v2/123/tags/')
-  })
-
   it('should list all tags and call request with get', function (done) {
     expect(typeof client.listAllTags).toEqual('function');
 

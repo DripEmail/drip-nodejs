@@ -19,11 +19,6 @@ describe('Campaign subscriptions', function () {
     request.get.restore();
   });
 
-  it('should provide the correct base URL', function () {
-    expect(helper.subscriptionsUrl(accountId, subscriberId))
-      .toBe('https://api.getdrip.com/v2/123/subscribers/999/campaign_subscriptions/')
-  })
-
   it('should list all campaign subscriptions and call request with get', function (done) {
     expect(typeof client.subscriberCampaignSubscriptions).toEqual('function');
 

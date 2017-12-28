@@ -13,7 +13,7 @@ describe('Campaigns with callback', () => {
     client.request.restore();
   });
 
-  it('should list all broadcasts and call request with get', (done) => {
+  it('should list all campaigns and call request with get', (done) => {
     expect(typeof client.listCampaigns).toEqual('function');
 
     client.listCampaigns({}, (error, response) => {

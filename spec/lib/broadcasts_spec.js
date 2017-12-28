@@ -14,10 +14,6 @@ describe('Broadcasts with callback', () => {
     client.request.restore();
   });
 
-  it('should provide the correct base URL', () => {
-    expect(helper.broadcastsUrl(123)).toBe('https://api.getdrip.com/v2/123/broadcasts/');
-  });
-
   it('should list broadcasts and call request with get', (done) => {
     expect(typeof client.listBroadcasts).toEqual('function');
 

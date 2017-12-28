@@ -29,11 +29,6 @@ describe('Subscribers', function () {
       request.del.restore();
     });
 
-    it('should provide the correct base URL', function () {
-      expect(helper.subscribersUrl(accountId))
-        .toBe('https://api.getdrip.com/v2/123/subscribers/')
-    })
-
     it('should list all subscribers and call request with get', function (done) {
       expect(typeof client.listSubscribers).toEqual('function');
 
