@@ -7,6 +7,9 @@
         ],
         "class-methods-use-this": [
             "off"
+        ],
+        "no-mixed-operators": [
+            "off"
         ]
     },
     "env": {
