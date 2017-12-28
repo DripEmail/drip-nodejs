@@ -1,29 +1,59 @@
-'use strict';
+const sinon = require('sinon');
+const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 
-var sinon = require('sinon')
-  , client = require('../../lib/index')({ token: 'abc123' })
-  , request = require('request')
-  , helper = require('../../lib/helpers');
-
-describe('User', function () {
-
-  beforeEach(function () {
-    sinon.stub(request, 'get')
-      .yields(null, { statusCode: 200 }, { accounts : {} }
-    );
+describe('User with callback', () => {
+  beforeEach(() => {
+    sinon.stub(client, 'request')
+      .yields(null, { statusCode: 200 }, { users: {} });
   });
 
-  afterEach(function () {
-    request.get.restore();
+  afterEach(() => {
+    client.request.restore();
   });
 
-  it('should fetch currently authenticated user and call request with get', function (done) {
+  it('should fetch currently authenticated user and call request with get', (done) => {
     expect(typeof client.fetchUser).toEqual('function');
 
-    client.fetchUser(function(error, response, body) {
+    client.fetchUser((error, response) => {
       expect(response.statusCode).toBe(200);
-      expect(request.get.callCount).toBe(1);
+      expect(client.request.callCount).toBe(1);
     });
     done();
+  });
+});
+
+describe('User with promise', () => {
+  const expectedResponse = {
+    statusCode: 200,
+    body: {
+      users: [{}]
+    }
+  };
+
+  const failTest = (error) => {
+    expect(error).toBeUndefined();
+  };
+
+  beforeEach(() => {
+    sinon.stub(client, 'request').resolves(expectedResponse);
+    spyOn(client, 'get').and.callThrough();
+  });
+
+  afterEach(() => {
+    client.request.restore();
+  });
+
+  it('should fetch authenticated user', (done) => {
+    expect(typeof client.fetchUser).toEqual('function');
+
+    client.fetchUser()
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.get).toHaveBeenCalledWith('user', {}, undefined);
   });
 });
