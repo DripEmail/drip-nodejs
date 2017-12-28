@@ -7,7 +7,7 @@ const workflowId = 444555;
 describe('Workflows with callback', () => {
   beforeEach(() => {
     sinon.stub(client, 'request')
-      .yields(null, { statusCode: 200 }, { accounts: {} });
+      .yields(null, { statusCode: 200 }, { workflows: {} });
   });
 
   afterEach(() => {

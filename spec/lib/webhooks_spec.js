@@ -1,69 +1,135 @@
-'use strict';
+const sinon = require('sinon');
+const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 
-var sinon = require('sinon')
-  , client = require('../../lib/index')({ token: 'abc123' })
-  , request = require('request')
-  , helper = require('../../lib/helpers');
+const webhookId = 456789;
 
-describe('Webhooks', function () {
-  var accountId = 123;
-  var webhookId = 456;
-
-  beforeEach(function () {
-    sinon.stub(request, 'get')
-      .yields(null, { statusCode: 200 }, { accounts : {} }
-    );
-    sinon.stub(request, 'post')
-      .yields(null, { statusCode: 204 }, {}
-    );
-    sinon.stub(request, 'del')
-      .yields(null, { statusCode: 204 }, {}
-    );
+describe('Webhooks', () => {
+  beforeEach(() => {
+    sinon.stub(client, 'request')
+      .yields(null, { statusCode: 200 }, { webhooks: {} });
   });
 
-  afterEach(function () {
-    request.get.restore();
-    request.post.restore();
-    request.del.restore();
+  afterEach(() => {
+    client.request.restore();
   });
 
-  it('should list all webhooks and call request with get', function (done) {
+  it('should list all webhooks and call request with get', (done) => {
     expect(typeof client.listWebhooks).toEqual('function');
 
-    client.listWebhooks(accountId, function(error, response, body) {
+    client.listWebhooks((error, response) => {
       expect(response.statusCode).toBe(200);
-      expect(request.get.callCount).toBe(1);
+      expect(client.request.callCount).toBe(1);
     });
     done();
   });
 
-  it('should fetch a specific webhook and call request with get', function (done) {
+  it('should fetch a specific webhook and call request with get', (done) => {
     expect(typeof client.fetchWebhook).toEqual('function');
 
-    client.fetchWebhook(accountId, webhookId, function (error, response, body) {
+    client.fetchWebhook(webhookId, (error, response) => {
       expect(response.statusCode).toBe(200);
-      expect(request.get.callCount).toBe(1);
+      expect(client.request.callCount).toBe(1);
     });
     done();
   });
 
-  it('should create a webhook and call request with post', function (done) {
+  it('should create a webhook and call request with post', (done) => {
     expect(typeof client.createWebhook).toEqual('function');
 
-    client.createWebhook(accountId, { "hook_details": "hook value" }, function (error, response, body) {
-      expect(response.statusCode).toBe(204);
-      expect(request.post.callCount).toBe(1);
+    client.createWebhook({ hook_details: 'hook value' }, (error, response) => {
+      expect(response.statusCode).toBe(200);
+      expect(client.request.callCount).toBe(1);
     });
     done();
   });
 
-  it('should delete a webhook and call request with delete', function (done) {
+  it('should delete a webhook and call request with delete', (done) => {
     expect(typeof client.destroyWebhook).toEqual('function');
 
-    client.destroyWebhook(accountId, webhookId, function (error, response, body) {
-      expect(response.statusCode).toBe(204);
-      expect(request.del.callCount).toBe(1);
+    client.destroyWebhook(webhookId, (error, response) => {
+      expect(response.statusCode).toBe(200);
+      expect(client.request.callCount).toBe(1);
     });
     done();
+  });
+});
+
+describe('Webhooks with promise', () => {
+  const expectedResponse = {
+    statusCode: 200,
+    body: {
+      webhooks: [{}]
+    }
+  };
+
+  const failTest = (error) => {
+    expect(error).toBeUndefined();
+  };
+
+  beforeEach(() => {
+    sinon.stub(client, 'request').resolves(expectedResponse);
+    spyOn(client, 'get').and.callThrough();
+    spyOn(client, 'post').and.callThrough();
+    spyOn(client, 'delete').and.callThrough();
+  });
+
+  afterEach(() => {
+    client.request.restore();
+  });
+
+  it('should list all webhooks', (done) => {
+    expect(typeof client.listWebhooks).toEqual('function');
+
+    client.listWebhooks()
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.get).toHaveBeenCalledWith('9999999/webhooks', {}, undefined);
+  });
+
+  it('should fetch a webhook', (done) => {
+    expect(typeof client.fetchWebhook).toEqual('function');
+
+    client.fetchWebhook(webhookId)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.get).toHaveBeenCalledWith('9999999/webhooks/456789', {}, undefined);
+  });
+
+  it('should create a webhook', (done) => {
+    expect(typeof client.createWebhook).toEqual('function');
+
+    client.createWebhook({ hook_details: 'hook value' })
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.post).toHaveBeenCalledWith('9999999/webhooks', { payload: { hook_details: 'hook value' } }, undefined);
+  });
+
+  it('should destroy a webhook', (done) => {
+    expect(typeof client.destroyWebhook).toEqual('function');
+
+    client.destroyWebhook(webhookId)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.delete).toHaveBeenCalledWith('9999999/webhooks/456789', {}, undefined);
   });
 });
