@@ -1,6 +1,5 @@
 const sinon = require('sinon');
 const client = require('../../lib/index')({ token: 'abc123' });
-const helper = require('../../lib/helpers');
 
 describe('Accounts with callback', () => {
   beforeEach(() => {

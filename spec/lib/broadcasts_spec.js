@@ -1,6 +1,5 @@
 const sinon = require('sinon');
 const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
-const helper = require('../../lib/helpers');
 
 const broadcastId = 8888888;
 
