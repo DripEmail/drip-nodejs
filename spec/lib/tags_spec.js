@@ -1,66 +1,111 @@
-'use strict';
+const sinon = require('sinon');
+const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 
-var sinon = require('sinon')
-  , client = require('../../lib/index')({ token: 'abc123' })
-  , request = require('request')
-  , helper = require('../../lib/helpers');
+const email = 'someone@example.com';
 
-describe('Tags', function () {
-  var accountId = 123;
-  var campaignId = 456;
-  var email = "someone@example.com";
-
-  beforeEach(function () {
-    sinon.stub(request, 'get')
-      .yields(null, { statusCode: 200 }, { accounts : {} }
-    );
-    sinon.stub(request, 'post')
-      .yields(null, { statusCode: 204 }, {}
-    );
-    sinon.stub(request, 'del')
-      .yields(null, { statusCode: 204 }, {}
-    );
+describe('Tags with callback', () => {
+  beforeEach(() => {
+    sinon.stub(client, 'request')
+      .yields(null, { statusCode: 200 }, { accounts: {} });
   });
 
-  afterEach(function () {
-    request.get.restore();
-    request.post.restore();
-    request.del.restore();
+  afterEach(() => {
+    client.request.restore();
   });
 
-  it('should provide the correct base URL', function () {
-    expect(helper.tagsUrl(accountId))
-      .toBe('https://api.getdrip.com/v2/123/tags/')
-  })
-
-  it('should list all tags and call request with get', function (done) {
+  it('should list all tags and call request with get', (done) => {
     expect(typeof client.listAllTags).toEqual('function');
 
-    client.listAllTags(accountId, function(error, response, body) {
+    client.listAllTags((error, response) => {
       expect(response.statusCode).toBe(200);
-      expect(request.get.callCount).toBe(1);
+      expect(client.request.callCount).toBe(1);
     });
     done();
   });
 
-  it('should tag a subscriber and call request with post', function (done) {
+  it('should tag a subscriber and call request with post', (done) => {
     expect(typeof client.tagSubscriber).toEqual('function');
 
-    client.tagSubscriber(accountId, ["Test 1", "Test 2", "Test 3"], email, function (error, response, body) {
-      expect(response.statusCode).toBe(204);
+    client.tagSubscriber({ email, tag: 'Customer' }, (error, response) => {
+      expect(response.statusCode).toBe(200);
+      expect(client.request.callCount).toBe(1);
     });
-
-    expect(request.post.callCount).toBe(3);
     done();
   });
 
-  it('should remove a tag from a subscriber and call request with delete', function (done) {
+  it('should remove a tag from a subscriber and call request with delete', (done) => {
     expect(typeof client.removeSubscriberTag).toEqual('function');
 
-    client.removeSubscriberTag(accountId, email, "Test tag", function (error, response, body) {
-      expect(response.statusCode).toBe(204);
-      expect(request.del.callCount).toBe(1);
+    client.removeSubscriberTag(email, 'Test tag', (error, response) => {
+      expect(response.statusCode).toBe(200);
+      expect(client.request.callCount).toBe(1);
     });
     done();
+  });
+});
+
+describe('Tags with promise', () => {
+  const expectedResponse = {
+    statusCode: 200,
+    body: {
+      tags: [{}]
+    }
+  };
+
+  const failTest = (error) => {
+    expect(error).toBeUndefined();
+  };
+
+  beforeEach(() => {
+    sinon.stub(client, 'request').resolves(expectedResponse);
+    spyOn(client, 'get').and.callThrough();
+    spyOn(client, 'post').and.callThrough();
+    spyOn(client, 'del').and.callThrough();
+  });
+
+  afterEach(() => {
+    client.request.restore();
+  });
+
+  it('should list all tags', (done) => {
+    expect(typeof client.listAllTags).toEqual('function');
+
+    client.listAllTags()
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.get).toHaveBeenCalledWith('9999999/tags', {}, undefined);
+  });
+
+  it('should tag a subscriber', (done) => {
+    expect(typeof client.tagSubscriber).toEqual('function');
+
+    client.tagSubscriber({ email, tag: 'Customer' })
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.post).toHaveBeenCalledWith('9999999/tags', { payload: [{ email, tag: 'Customer' }] }, undefined);
+  });
+
+  it('remove a subscriber tag', (done) => {
+    expect(typeof client.removeSubscriberTag).toEqual('function');
+
+    client.removeSubscriberTag(email, 'Customer')
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.del).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/tags/Customer', {}, undefined);
   });
 });

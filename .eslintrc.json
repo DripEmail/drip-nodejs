@@ -1,0 +1,21 @@
+{
+    "extends": "airbnb-base",
+    "rules": {
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "class-methods-use-this": [
+            "off"
+        ],
+        "no-mixed-operators": [
+            "off"
+        ]
+    },
+    "env": {
+        "jasmine": true
+    },
+    "plugins": [
+        "jasmine"
+    ]
+}

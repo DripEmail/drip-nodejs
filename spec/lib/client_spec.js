@@ -1,31 +1,29 @@
-'use strict';
+const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
+const bearerClient = require('../../lib/index')({ token: 'abc123', tokenType: 'Bearer', accountId: 9999999 });
+const VERSION = require('../../lib/version');
 
-var Client = require('../../lib/index');
+const headers = client.requestHeaders();
+const bearerHeaders = bearerClient.requestHeaders();
+const token = 'abc123';
 
-describe('Client', function () {
-  var token = 'abc123';
-  it('should have token attribute', function () {
-    var client = new Client({ token: token });
-    expect(client.token).toEqual(token);
+describe('Client', () => {
+  it('should have token attribute', () => {
+    expect(client.token).toEqual('YWJjMTIz');
   });
 
-  it('should add content-type header', function () {
-    var client = new Client({ token: token });
-    expect(client.headers["content-type"]).toEqual("application/vnd.api+json");
+  it('should add content-type header', () => {
+    expect(headers['Content-Type']).toEqual('application/vnd.api+json');
   });
 
-  it('should add basic auth authorization header when no tokenType is specified', function () {
-    var client = new Client({ token: token });
-    expect(client.headers.authorization).toEqual("Basic " + new Buffer(token).toString('base64'));
+  it('should add basic auth authorization header when no tokenType is specified', () => {
+    expect(headers.authorization).toEqual(`Basic ${Buffer.from(token).toString('base64')}`);
   });
 
-  it('should add bearer auth authorization header when tokenType is "Bearer"', function () {
-    var client = new Client({ token: token, tokenType: "Bearer" });
-    expect(client.headers.authorization).toEqual("Bearer " + token);
+  it('should add bearer auth authorization header when tokenType is "Bearer"', () => {
+    expect(bearerHeaders.authorization).toEqual(`Bearer ${token}`);
   });
 
-  it('should add user-agent header', function () {
-    var client = new Client({ token: token });
-    expect(client.headers["User-Agent"]).toEqual("Drip NodeJS Wrapper");
+  it('should add user-agent header', () => {
+    expect(headers['User-Agent']).toEqual(`Drip NodeJS Wrapper ${VERSION}`);
   });
 });

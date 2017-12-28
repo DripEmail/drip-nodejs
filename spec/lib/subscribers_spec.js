@@ -1,121 +1,102 @@
-'use strict';
+const sinon = require('sinon');
+const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
+const request = require('request');
 
-var sinon = require('sinon')
-  , client = require('../../lib/index')({ token: 'abc123' })
-  , request = require('request')
-  , helper = require('../../lib/helpers');
+const email = 'someone@example.com';
+const campaignId = 456789;
 
-describe('Subscribers', function () {
-  var accountId = 123;
-  var campaignId = 456;
-  var email = "someone@example.com";
-
-  describe('non-batch functions', function() {
-    beforeEach(function () {
-      sinon.stub(request, 'get')
-        .yields(null, { statusCode: 200 }, { accounts : {} }
-      );
-      sinon.stub(request, 'post')
-        .yields(null, { statusCode: 204 }, {}
-      );
-      sinon.stub(request, 'del')
-        .yields(null, { statusCode: 204 }, {}
-      );
+describe('Subscribers with callback', () => {
+  describe('non-batch functions', () => {
+    beforeEach(() => {
+      sinon.stub(client, 'request')
+        .yields(null, { statusCode: 200 }, { subscribers: {} });
     });
 
-    afterEach(function () {
-      request.get.restore();
-      request.post.restore();
-      request.del.restore();
+    afterEach(() => {
+      client.request.restore();
     });
 
-    it('should provide the correct base URL', function () {
-      expect(helper.subscribersUrl(accountId))
-        .toBe('https://api.getdrip.com/v2/123/subscribers/')
-    })
-
-    it('should list all subscribers and call request with get', function (done) {
+    it('should list all subscribers and call request with get', (done) => {
       expect(typeof client.listSubscribers).toEqual('function');
 
-      client.listSubscribers(accountId, function(error, response, body) {
+      client.listSubscribers({}, (error, response) => {
         expect(response.statusCode).toBe(200);
-        expect(request.get.callCount).toBe(1);
+        expect(client.request.callCount).toBe(1);
       });
       done();
     });
 
-    it('should update a subscriber and call request with post', function (done) {
-      expect(typeof client.updateSubscriber).toEqual('function');
+    it('should update a subscriber and call request with post', (done) => {
+      expect(typeof client.createUpdateSubscriber).toEqual('function');
 
-      client.updateSubscriber(accountId, { "test_field": "value" }, function (error, response, body) {
-        expect(response.statusCode).toBe(204);
-        expect(request.post.callCount).toBe(1);
+      client.createUpdateSubscriber({ test_field: 'value' }, (error, response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
       });
       done();
     });
 
-    it('should fetch a specific subscriber and call request with get', function (done) {
+    it('should fetch a specific subscriber and call request with get', (done) => {
       expect(typeof client.fetchSubscriber).toEqual('function');
 
-      client.fetchSubscriber(accountId, email, function (error, response, body) {
+      client.fetchSubscriber(email, (error, response) => {
         expect(response.statusCode).toBe(200);
-        expect(request.get.callCount).toBe(1);
+        expect(client.request.callCount).toBe(1);
       });
       done();
     });
 
-    it('should unsubscribe someone from a campaign and call request with post', function (done) {
+    it('should unsubscribe someone from a campaign and call request with post', (done) => {
       expect(typeof client.unsubscribeFromCampaign).toEqual('function');
 
-      client.unsubscribeFromCampaign(accountId, email, campaignId, function (error, response, body) {
-        expect(response.statusCode).toBe(204);
-        expect(request.post.callCount).toBe(1);
+      client.unsubscribeFromCampaign(email, campaignId, (error, response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
       });
       done();
     });
 
-    it('should unsubscribe someone from all mailings and call request with post', function (done) {
+    it('should unsubscribe someone from all mailings and call request with post', (done) => {
       expect(typeof client.unsubscribeFromAllMailings).toEqual('function');
 
-      client.unsubscribeFromAllMailings(accountId, email, function (error, response, body) {
-        expect(response.statusCode).toBe(204);
-        expect(request.post.callCount).toBe(1);
+      client.unsubscribeFromAllMailings(email, (error, response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
       });
       done();
     });
 
-    it('should delete a subscriber and call request with delete', function (done) {
+    it('should delete a subscriber and call request with delete', (done) => {
       expect(typeof client.deleteSubscriber).toEqual('function');
 
-      client.deleteSubscriber(accountId, email, function (error, response, body) {
-        expect(response.statusCode).toBe(204);
-        expect(request.del.callCount).toBe(1);
+      client.deleteSubscriber(email, (error, response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
       });
       done();
     });
   });
 
-  describe('batch functions', function() {
-    var payload = {
+  describe('batch functions', () => {
+    const payload = {
       batches: [{
         subscribers: new Array(1001)
       }]
     };
 
-    beforeEach(function () {
+    beforeEach(() => {
       sinon.stub(request, 'post')
-        .yields(null, { statusCode: 201 }, {}
-      );
+        .yields(null, { statusCode: 201 }, {});
     });
 
-    afterEach(function () {
+    afterEach(() => {
       request.post.restore();
     });
-    
-    it('should post batches of subscribers and call request with post', function (done) {
+
+    it('should post batches of subscribers and call request with post', (done) => {
       expect(typeof client.updateBatchSubscribers).toEqual('function');
 
-      client.updateBatchSubscribers(accountId, payload, function (errors, responses, bodies) {
+      client.updateBatchSubscribers(payload, (errors, responses, bodies) => {
         expect(errors).toBe(null);
         expect(responses.length).toBe(2);
         expect(responses[0].statusCode).toBe(201);
@@ -125,5 +106,115 @@ describe('Subscribers', function () {
       });
       done();
     });
+  });
+
+  describe('Subscribers with promise', () => {
+    const expectedResponse = {
+      statusCode: 200,
+      body: {
+        subscribers: [{}]
+      }
+    };
+
+    const failTest = (error) => {
+      expect(error).toBeUndefined();
+    };
+
+    beforeEach(() => {
+      sinon.stub(client, 'request').resolves(expectedResponse);
+      spyOn(client, 'get').and.callThrough();
+      spyOn(client, 'post').and.callThrough();
+      spyOn(client, 'del').and.callThrough();
+    });
+
+    afterEach(() => {
+      client.request.restore();
+    });
+
+    it('should list all subscribers', (done) => {
+      expect(typeof client.listSubscribers).toEqual('function');
+
+      client.listSubscribers({})
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(client.request.callCount).toBe(1);
+        })
+        .catch(failTest);
+      done();
+
+      expect(client.get).toHaveBeenCalledWith('9999999/subscribers/', { qs: {} }, undefined);
+    });
+
+    it('create or update subscribers', (done) => {
+      expect(typeof client.createUpdateSubscriber).toEqual('function');
+
+      client.createUpdateSubscriber({ test_field: 'value' })
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(client.request.callCount).toBe(1);
+        })
+        .catch(failTest);
+      done();
+
+      expect(client.post).toHaveBeenCalledWith('9999999/subscribers', { payload: { test_field: 'value' } }, undefined);
+    });
+
+    it('fetch a subscriber', (done) => {
+      expect(typeof client.fetchSubscriber).toEqual('function');
+
+      client.fetchSubscriber(email)
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(client.request.callCount).toBe(1);
+        })
+        .catch(failTest);
+      done();
+
+      expect(client.get).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com', {}, undefined);
+    });
+
+    it('unsubscribe from a campaign', (done) => {
+      expect(typeof client.unsubscribeFromCampaign).toEqual('function');
+
+      client.unsubscribeFromCampaign(email, campaignId)
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(client.request.callCount).toBe(1);
+        })
+        .catch(failTest);
+      done();
+
+      expect(client.post).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/remove', { qs: { campaign_id: campaignId } }, undefined);
+    });
+
+    it('unsubscribe a subscriber from all mailings', (done) => {
+      expect(typeof client.unsubscribeFromAllMailings).toEqual('function');
+
+      client.unsubscribeFromAllMailings(email)
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(client.request.callCount).toBe(1);
+        })
+        .catch(failTest);
+      done();
+
+      expect(client.post).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/unsubscribe_all', {}, undefined);
+    });
+
+    it('delete a subscriber', (done) => {
+      expect(typeof client.deleteSubscriber).toEqual('function');
+
+      client.deleteSubscriber(email)
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(client.request.callCount).toBe(1);
+        })
+        .catch(failTest);
+      done();
+
+      expect(client.del).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com', {}, undefined);
+    });
+
+    // TODO: Implement Promise based batch methods
   });
 });

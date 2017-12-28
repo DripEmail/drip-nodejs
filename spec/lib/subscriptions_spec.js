@@ -1,36 +1,61 @@
-'use strict';
+const sinon = require('sinon');
+const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 
-var sinon = require('sinon')
-  , client = require('../../lib/index')({ token: 'abc123' })
-  , request = require('request')
-  , helper = require('../../lib/helpers');
+const subscriberId = 'abc123';
 
-describe('Campaign subscriptions', function () {
-  var accountId = 123;
-  var subscriberId = 999;
-
-  beforeEach(function () {
-    sinon.stub(request, 'get')
-      .yields(null, { statusCode: 200 }, { accounts : {} }
-    );
+describe('Campaign subscriptions', () => {
+  beforeEach(() => {
+    sinon.stub(client, 'request')
+      .yields(null, { statusCode: 200 }, { accounts: {} });
   });
 
-  afterEach(function () {
-    request.get.restore();
+  afterEach(() => {
+    client.request.restore();
   });
 
-  it('should provide the correct base URL', function () {
-    expect(helper.subscriptionsUrl(accountId, subscriberId))
-      .toBe('https://api.getdrip.com/v2/123/subscribers/999/campaign_subscriptions/')
-  })
-
-  it('should list all campaign subscriptions and call request with get', function (done) {
+  it('should list all campaign subscriptions and call request with get', (done) => {
     expect(typeof client.subscriberCampaignSubscriptions).toEqual('function');
 
-    client.subscriberCampaignSubscriptions(accountId, subscriberId, function(error, response, body) {
+    client.subscriberCampaignSubscriptions(subscriberId, (error, response) => {
       expect(response.statusCode).toBe(200);
-      expect(request.get.callCount).toBe(1);
+      expect(client.request.callCount).toBe(1);
     });
     done();
+  });
+});
+
+describe('Campaign subscriptions with promise', () => {
+  const expectedResponse = {
+    statusCode: 200,
+    body: {
+      campaign_subscripions: [{}]
+    }
+  };
+
+  const failTest = (error) => {
+    expect(error).toBeUndefined();
+  };
+
+  beforeEach(() => {
+    sinon.stub(client, 'request').resolves(expectedResponse);
+    spyOn(client, 'get').and.callThrough();
+  });
+
+  afterEach(() => {
+    client.request.restore();
+  });
+
+  it('should list all workflows', (done) => {
+    expect(typeof client.subscriberCampaignSubscriptions).toEqual('function');
+
+    client.subscriberCampaignSubscriptions(subscriberId)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.get).toHaveBeenCalledWith('9999999/subscribers/abc123/campaign_subscriptions', {}, undefined);
   });
 });
