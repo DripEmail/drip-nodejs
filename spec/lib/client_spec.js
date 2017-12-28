@@ -5,7 +5,7 @@ describe('Client', () => {
   const token = 'abc123';
   it('should have token attribute', () => {
     const client = new Client({ token });
-    expect(client.token).toEqual(token);
+    expect(client.token).toEqual('YWJjMTIz');
   });
 
   it('should add content-type header', () => {

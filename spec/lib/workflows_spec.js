@@ -91,7 +91,7 @@ describe('Workflows with promise', () => {
     sinon.stub(client, 'request').resolves(expectedResponse);
     spyOn(client, 'get').and.callThrough();
     spyOn(client, 'post').and.callThrough();
-    spyOn(client, 'delete').and.callThrough();
+    spyOn(client, 'del').and.callThrough();
   });
 
   afterEach(() => {
@@ -179,6 +179,6 @@ describe('Workflows with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.delete).toHaveBeenCalledWith('9999999/workflows/444555/subscribers/test%40example.com', {}, undefined);
+    expect(client.del).toHaveBeenCalledWith('9999999/workflows/444555/subscribers/test%40example.com', {}, undefined);
   });
 });
