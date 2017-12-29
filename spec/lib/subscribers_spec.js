@@ -4,6 +4,7 @@ const request = require('request');
 
 const email = 'someone@example.com';
 const campaignId = 456789;
+const batchPayload = { batches: [{ subscribers: [{ email: 'someone@example.com' }] }] };
 
 describe('Subscribers with callback', () => {
   describe('non-batch functions', () => {
@@ -50,6 +51,16 @@ describe('Subscribers with callback', () => {
       expect(typeof client.unsubscribeFromCampaign).toEqual('function');
 
       client.unsubscribeFromCampaign(email, campaignId, (error, response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      });
+      done();
+    });
+
+    it('should batch unsubscribe subscribers', (done) => {
+      expect(typeof client.unsubscribeBatchSubscribers).toEqual('function');
+
+      client.unsubscribeBatchSubscribers(batchPayload, (error, response) => {
         expect(response.statusCode).toBe(200);
         expect(client.request.callCount).toBe(1);
       });
@@ -157,6 +168,20 @@ describe('Subscribers with callback', () => {
       done();
 
       expect(client.post).toHaveBeenCalledWith('9999999/subscribers', { payload: { test_field: 'value' } }, undefined);
+    });
+
+    it('unsubscribe a batch of subscribers', (done) => {
+      expect(typeof client.unsubscribeBatchSubscribers).toEqual('function');
+
+      client.unsubscribeBatchSubscribers(batchPayload)
+        .then((response) => {
+          expect(response.statusCode).toBe(200);
+          expect(client.request.callCount).toBe(1);
+        })
+        .catch(failTest);
+      done();
+
+      expect(client.post).toHaveBeenCalledWith('9999999/unsubscribes/batches', { payload: { batches: [{ subscribers: [{ email: 'someone@example.com' }] }] } }, undefined);
     });
 
     it('fetch a subscriber', (done) => {
