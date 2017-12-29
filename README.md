@@ -94,6 +94,7 @@ The following methods are currently available on the client instance. You can fi
 | Unsubscribe from all mailings        | `client.unsubscribeFromAllMailings(idOrEmail, callback)`                     |
 | Delete a subscriber                  | `client.deleteSubscriber(idOrEmail, callback)`                               |
 | Update a batch of subscribers        | `client.updateBatchSubscribers(payload, callback)`                           |
+| Unsubscribe a batch of subscribers   | `client.unsubscribeBatchSubscribers(payload, callback)`                      |
 
 ### Tags
 | Action                               | Method                                                                       |
