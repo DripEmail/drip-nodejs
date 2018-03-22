@@ -151,7 +151,7 @@ describe('Subscribers with callback', () => {
         json: true,
         body: {
           batches: [{
-            subscribers: [ undefined ]
+            subscribers: [undefined]
           }]
         }
       }, jasmine.any(Function));
