@@ -119,6 +119,45 @@ describe('Subscribers with callback', () => {
     });
   });
 
+  describe('batch request URL', () => {
+    const payload = {
+      batches: [{
+        subscribers: new Array(1)
+      }]
+    };
+
+    beforeEach(() => {
+      sinon.stub(request, 'post')
+        .yields(null, { statusCode: 201 }, {});
+      spyOn(request, 'post').and.callThrough();
+    });
+
+    afterEach(() => {
+      request.post.restore();
+    });
+
+    it('should set the correct request URL', (done) => {
+      client.updateBatchSubscribers(payload, (errors, responses, bodies) => {
+        expect(errors).toBe(null);
+        expect(responses.length).toBe(1);
+        expect(responses[0].statusCode).toBe(201);
+        expect(bodies).toEqual([{}]);
+      });
+      done();
+
+      expect(request.post).toHaveBeenCalledWith({
+        url: 'https://api.getdrip.com/v2/9999999/subscribers/batches',
+        headers: client.requestHeaders(),
+        json: true,
+        body: {
+          batches: [{
+            subscribers: [ undefined ]
+          }]
+        }
+      }, jasmine.any(Function));
+    });
+  });
+
   describe('Subscribers with promise', () => {
     const expectedResponse = {
       statusCode: 200,
