@@ -69,8 +69,6 @@ const order = {
   }]
 };
 
-const orderId = 12345678;
-
 const batch = {
   batches: [{
     orders: [
@@ -323,6 +321,6 @@ describe('Orders with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith(`9999999/refunds`, { payload: refund }, undefined);
+    expect(client.post).toHaveBeenCalledWith('9999999/refunds', { payload: refund }, undefined);
   });
 });
