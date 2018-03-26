@@ -2,31 +2,25 @@ const sinon = require('sinon');
 const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 
 const idOrEmail = 'someone@example.com';
-const purchaseId = 444555;
-const payload = {
+const options = {
+  email: idOrEmail,
+  provider: 'shopify',
+  upstream_id: 'abcdef',
+  amount: 4900,
+  tax: 100,
+  fees: 0,
+  discount: 0,
+  currency_code: 'USD',
   properties: {
-    address: '123 Anywhere St'
-  },
-  items: [
-    {
-      id: '8888888',
-      product_id: '765432',
-      sku: '4444',
-      amount: 4900,
-      name: 'Canoe',
-      quantity: 1,
-      properties: {
-        color: 'black'
-      }
-    }
-  ],
-  occurred_at: '2013-06-21T10:31:58Z'
+    size: 'medium',
+    color: 'red'
+  }
 };
 
 describe('Purchases with callback', () => {
   beforeEach(() => {
     sinon.stub(client, 'request')
-      .yields(null, { statusCode: 200 }, { purchases: {} });
+      .yields(null, { statusCode: 202 }, { purchases: {} });
   });
 
   afterEach(() => {
@@ -36,28 +30,8 @@ describe('Purchases with callback', () => {
   it('should record a purchase event and call request with post', (done) => {
     expect(typeof client.createPurchase).toEqual('function');
 
-    client.createPurchase(idOrEmail, payload, (error, response) => {
-      expect(response.statusCode).toBe(200);
-      expect(client.request.callCount).toBe(1);
-    });
-    done();
-  });
-
-  it('should list all purchase events for a subscriber and call request with get', (done) => {
-    expect(typeof client.listPurchases).toEqual('function');
-
-    client.listPurchases(idOrEmail, {}, (error, response) => {
-      expect(response.statusCode).toBe(200);
-      expect(client.request.callCount).toBe(1);
-    });
-    done();
-  });
-
-  it('should fetch a specific purchase event and call request with get', (done) => {
-    expect(typeof client.fetchPurchase).toEqual('function');
-
-    client.fetchPurchase(idOrEmail, purchaseId, (error, response) => {
-      expect(response.statusCode).toBe(200);
+    client.createPurchase(idOrEmail, options, (error, response) => {
+      expect(response.statusCode).toBe(202);
       expect(client.request.callCount).toBe(1);
     });
     done();
@@ -66,10 +40,8 @@ describe('Purchases with callback', () => {
 
 describe('Purchases with Promise', () => {
   const expectedResponse = {
-    statusCode: 200,
-    body: {
-      purchases: [{}]
-    }
+    statusCode: 202,
+    body: {}
   };
 
   const failTest = (error) => {
@@ -78,7 +50,6 @@ describe('Purchases with Promise', () => {
 
   beforeEach(() => {
     sinon.stub(client, 'request').resolves(expectedResponse);
-    spyOn(client, 'get').and.callThrough();
     spyOn(client, 'post').and.callThrough();
   });
 
@@ -89,42 +60,14 @@ describe('Purchases with Promise', () => {
   it('should create a purchase', (done) => {
     expect(typeof client.createPurchase).toEqual('function');
 
-    client.createPurchase(idOrEmail, payload)
+    client.createPurchase(idOrEmail, options)
       .then((response) => {
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(202);
         expect(client.request.callCount).toBe(1);
       })
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/purchases', { payload }, undefined);
-  });
-
-  it('should list purchases for a subscriber', (done) => {
-    expect(typeof client.listPurchases).toEqual('function');
-
-    client.listPurchases(idOrEmail, {})
-      .then((response) => {
-        expect(response.statusCode).toBe(200);
-        expect(client.request.callCount).toBe(1);
-      })
-      .catch(failTest);
-    done();
-
-    expect(client.get).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/purchases', { qs: {} }, undefined);
-  });
-
-  it('should fetch a purchase', (done) => {
-    expect(typeof client.fetchPurchase).toEqual('function');
-
-    client.fetchPurchase(idOrEmail, purchaseId)
-      .then((response) => {
-        expect(response.statusCode).toBe(200);
-        expect(client.request.callCount).toBe(1);
-      })
-      .catch(failTest);
-    done();
-
-    expect(client.get).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/purchases/444555', {}, undefined);
+    expect(client.post).toHaveBeenCalledWith('9999999/orders', { options }, undefined);
   });
 });

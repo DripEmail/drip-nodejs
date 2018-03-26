@@ -77,12 +77,14 @@ The following methods are currently available on the client instance. You can fi
 | List all forms                       | `client.listForms(callback)`                                                 |
 | Fetch a form                         | `client.fetchForm(formId, callback)`                                         |
 
-### Purchases
+**Note:** The beta purchases endpoint has been deprecated and its methods have been removed from the package except `createPurchase`, which now sends requests to the Order creation endpoint [here](https://developer.drip.com/#orders).
+
+### Orders
 | Action                               | Method                                                                       |
 |--------------------------------------|------------------------------------------------------------------------------|
-| List all purchases                   | `client.listPurchases(idOrEmail, options = {}, callback)`                    |
-| Create a purchase                    | `client.createPurchase(idOrEmail, payload, callback)`                        |
-| Fetch a purchase                     | `client.fetchPurchase(idOrEmail, purchaseId, callback)`                      |
+| Record an order for a subscriber     | `client.createUpdateOrder(payload, callback)`                                |
+| Record a batch of orders             | `client.createUpdateBatchOrders(payload, callback)`                          |
+| Record a refund for an order         | `client.createUpdateRefund(payload, callback)`                               |
 
 ### Subscribers
 | Action                               | Method                                                                       |
