@@ -77,6 +77,8 @@ The following methods are currently available on the client instance. You can fi
 | List all forms                       | `client.listForms(callback)`                                                 |
 | Fetch a form                         | `client.fetchForm(formId, callback)`                                         |
 
+**Note:** The beta purchases endpoint has been deprecated and its methods have been removed from the package except `createPurchase`, which now sends requests to the Order creation endpoint [here](https://developer.drip.com/#orders).
+
 ### Orders
 | Action                               | Method                                                                       |
 |--------------------------------------|------------------------------------------------------------------------------|
