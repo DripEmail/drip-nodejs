@@ -217,6 +217,8 @@ const batch = {
 const refund = {
   refunds: [{
     upstream_id: 'tuvwx',
+    provider: 'my_store',
+    order_upstream_id: 'a1234567',
     amount: 2000,
     note: 'Incorrect size'
   }]
@@ -255,7 +257,7 @@ describe('Orders', () => {
   it('should create a refund and call request with post', (done) => {
     expect(typeof client.createUpdateRefund).toEqual('function');
 
-    client.createUpdateRefund(orderId, refund, (error, response) => {
+    client.createUpdateRefund(refund, (error, response) => {
       expect(response.statusCode).toBe(202);
       expect(client.request.callCount).toBe(1);
     });
@@ -313,7 +315,7 @@ describe('Orders with Promise', () => {
   it('should create a refund and call request with post', (done) => {
     expect(typeof client.createUpdateRefund).toEqual('function');
 
-    client.createUpdateRefund(orderId, refund)
+    client.createUpdateRefund(refund)
       .then((response) => {
         expect(response.statusCode).toBe(202);
         expect(client.request.callCount).toBe(1);
@@ -321,6 +323,6 @@ describe('Orders with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith(`9999999/orders/${orderId}/refunds`, { payload: refund }, undefined);
+    expect(client.post).toHaveBeenCalledWith(`9999999/refunds`, { payload: refund }, undefined);
   });
 });
