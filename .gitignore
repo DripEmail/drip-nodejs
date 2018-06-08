@@ -40,5 +40,3 @@ jspm_packages
 # Other
 experiments.js
 /experiments
-
-promiseTest.js
