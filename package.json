@@ -4,13 +4,13 @@
   "description": "A complete NodeJS wrapper for connecting to the Drip v2 REST API",
   "main": "./lib/index.js",
   "dependencies": {
-    "request": "^2.87.0",
+    "request": "^2.88.0",
     "request-promise": "^4.2.2"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jasmine": "^2.10.1",
     "jasmine": "^2.99.0",
     "sinon": "^4.5.0"
