@@ -66,7 +66,7 @@ describe('Conversions with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/goals/', { qs: {} }, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/goals/', { qs: {} }, undefined);
   });
 
   it('should fetch a conversion', (done) => {
@@ -80,6 +80,6 @@ describe('Conversions with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/goals/999888', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/goals/999888', {}, undefined);
   });
 });

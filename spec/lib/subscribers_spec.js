@@ -192,7 +192,7 @@ describe('Subscribers with callback', () => {
         .catch(failTest);
       done();
 
-      expect(client.get).toHaveBeenCalledWith('9999999/subscribers/', { qs: {} }, undefined);
+      expect(client.get).toHaveBeenCalledWith('v2/9999999/subscribers/', { qs: {} }, undefined);
     });
 
     it('create or update subscribers', (done) => {
@@ -206,7 +206,7 @@ describe('Subscribers with callback', () => {
         .catch(failTest);
       done();
 
-      expect(client.post).toHaveBeenCalledWith('9999999/subscribers', { payload: { test_field: 'value' } }, undefined);
+      expect(client.post).toHaveBeenCalledWith('v2/9999999/subscribers', { payload: { test_field: 'value' } }, undefined);
     });
 
     it('unsubscribe a batch of subscribers', (done) => {
@@ -220,7 +220,7 @@ describe('Subscribers with callback', () => {
         .catch(failTest);
       done();
 
-      expect(client.post).toHaveBeenCalledWith('9999999/unsubscribes/batches', { payload: { batches: [{ subscribers: [{ email: 'someone@example.com' }] }] } }, undefined);
+      expect(client.post).toHaveBeenCalledWith('v2/9999999/unsubscribes/batches', { payload: { batches: [{ subscribers: [{ email: 'someone@example.com' }] }] } }, undefined);
     });
 
     it('fetch a subscriber', (done) => {
@@ -234,7 +234,7 @@ describe('Subscribers with callback', () => {
         .catch(failTest);
       done();
 
-      expect(client.get).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com', {}, undefined);
+      expect(client.get).toHaveBeenCalledWith('v2/9999999/subscribers/someone%40example.com', {}, undefined);
     });
 
     it('unsubscribe from a campaign', (done) => {
@@ -248,7 +248,7 @@ describe('Subscribers with callback', () => {
         .catch(failTest);
       done();
 
-      expect(client.post).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/remove', { qs: { campaign_id: campaignId } }, undefined);
+      expect(client.post).toHaveBeenCalledWith('v2/9999999/subscribers/someone%40example.com/remove', { qs: { campaign_id: campaignId } }, undefined);
     });
 
     it('unsubscribe a subscriber from all mailings', (done) => {
@@ -262,7 +262,7 @@ describe('Subscribers with callback', () => {
         .catch(failTest);
       done();
 
-      expect(client.post).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/unsubscribe_all', {}, undefined);
+      expect(client.post).toHaveBeenCalledWith('v2/9999999/subscribers/someone%40example.com/unsubscribe_all', {}, undefined);
     });
 
     it('delete a subscriber', (done) => {
@@ -276,7 +276,7 @@ describe('Subscribers with callback', () => {
         .catch(failTest);
       done();
 
-      expect(client.del).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com', {}, undefined);
+      expect(client.del).toHaveBeenCalledWith('v2/9999999/subscribers/someone%40example.com', {}, undefined);
     });
 
     // TODO: Implement Promise based batch methods

@@ -68,6 +68,6 @@ describe('Purchases with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/orders', { options }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/orders', { options }, undefined);
   });
 });

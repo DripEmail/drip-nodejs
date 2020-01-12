@@ -78,7 +78,7 @@ describe('Tags with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/tags', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/tags', {}, undefined);
   });
 
   it('should tag a subscriber', (done) => {
@@ -92,7 +92,7 @@ describe('Tags with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/tags', { payload: { email, tag: 'Customer' } }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/tags', { payload: { email, tag: 'Customer' } }, undefined);
   });
 
   it('remove a subscriber tag', (done) => {
@@ -106,6 +106,6 @@ describe('Tags with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.del).toHaveBeenCalledWith('9999999/subscribers/someone%40example.com/tags/Customer', {}, undefined);
+    expect(client.del).toHaveBeenCalledWith('v2/9999999/subscribers/someone%40example.com/tags/Customer', {}, undefined);
   });
 });

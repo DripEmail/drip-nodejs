@@ -293,7 +293,7 @@ describe('Orders with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/orders', { payload: order }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/orders', { payload: order }, undefined);
   });
 
   it('should post a batch of orders and call request with post', (done) => {
@@ -307,7 +307,7 @@ describe('Orders with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/orders/batches', { payload: batch }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/orders/batches', { payload: batch }, undefined);
   });
 
   it('should create a refund and call request with post', (done) => {
@@ -321,6 +321,6 @@ describe('Orders with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/refunds', { payload: refund }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/refunds', { payload: refund }, undefined);
   });
 });

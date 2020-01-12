@@ -66,7 +66,7 @@ describe('Broadcasts with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/broadcasts/', { qs: {} }, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/broadcasts/', { qs: {} }, undefined);
   });
 
   it('should fetch broadcast', (done) => {
@@ -80,6 +80,6 @@ describe('Broadcasts with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/broadcasts/8888888', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/broadcasts/8888888', {}, undefined);
   });
 });

@@ -88,7 +88,7 @@ describe('Webhooks with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/webhooks', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/webhooks', {}, undefined);
   });
 
   it('should fetch a webhook', (done) => {
@@ -102,7 +102,7 @@ describe('Webhooks with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/webhooks/456789', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/webhooks/456789', {}, undefined);
   });
 
   it('should create a webhook', (done) => {
@@ -116,7 +116,7 @@ describe('Webhooks with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/webhooks', { payload: { hook_details: 'hook value' } }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/webhooks', { payload: { hook_details: 'hook value' } }, undefined);
   });
 
   it('should destroy a webhook', (done) => {
@@ -130,6 +130,6 @@ describe('Webhooks with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.del).toHaveBeenCalledWith('9999999/webhooks/456789', {}, undefined);
+    expect(client.del).toHaveBeenCalledWith('v2/9999999/webhooks/456789', {}, undefined);
   });
 });

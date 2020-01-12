@@ -109,7 +109,7 @@ describe('Workflows with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/workflows/', { qs: {} }, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/workflows/', { qs: {} }, undefined);
   });
 
   it('should fetch a workflow', (done) => {
@@ -123,7 +123,7 @@ describe('Workflows with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/workflows/444555', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/workflows/444555', {}, undefined);
   });
 
   it('should activate a workflow', (done) => {
@@ -137,7 +137,7 @@ describe('Workflows with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/workflows/444555/activate', {}, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/workflows/444555/activate', {}, undefined);
   });
 
   it('should pause a workflow', (done) => {
@@ -151,7 +151,7 @@ describe('Workflows with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/workflows/444555/pause', {}, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/workflows/444555/pause', {}, undefined);
   });
 
   it('should start a subscriber on a workflow', (done) => {
@@ -165,7 +165,7 @@ describe('Workflows with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/workflows/444555/subscribers', { payload: { email: 'test@example.com' } }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/workflows/444555/subscribers', { payload: { email: 'test@example.com' } }, undefined);
   });
 
   it('should remove a subscriber on a workflow', (done) => {
@@ -179,6 +179,6 @@ describe('Workflows with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.del).toHaveBeenCalledWith('9999999/workflows/444555/subscribers/test%40example.com', {}, undefined);
+    expect(client.del).toHaveBeenCalledWith('v2/9999999/workflows/444555/subscribers/test%40example.com', {}, undefined);
   });
 });

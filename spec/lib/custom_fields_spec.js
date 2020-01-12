@@ -54,6 +54,6 @@ describe('Custom fields with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/custom_field_identifiers/', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/custom_field_identifiers/', {}, undefined);
   });
 });
