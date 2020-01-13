@@ -12,7 +12,7 @@ describe('Client', () => {
   });
 
   it('should add content-type header', () => {
-    expect(headers['Content-Type']).toEqual('application/vnd.api+json');
+    expect(headers['Content-Type']).toEqual('application/json');
   });
 
   it('should add basic auth authorization header when no tokenType is specified', () => {
