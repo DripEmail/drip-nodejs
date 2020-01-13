@@ -1,7 +1,9 @@
 language: node_js
 node_js:
-  - "6"
-  - "7"
+  - "9"
+  - "10"
+  - "11"
+  - "12"
 before_script:
   - "npm i -g jasmine eslint eslint-config-airbnb-base eslint-plugin-import sinon"
 script:
