@@ -1,6 +1,6 @@
+const request = require('request');
 const sinon = require('sinon');
 const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
-const request = require('request');
 
 const email = 'someone@example.com';
 const campaignId = 456789;
