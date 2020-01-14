@@ -2,7 +2,7 @@ const sinon = require('sinon');
 const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 const MissingAttributeError = require('../../lib/errors');
 
-const cart = {
+const payload = {
   provider: 'my_custom_platform',
   email: 'user@gmail.com',
   action: 'created',
@@ -51,10 +51,36 @@ describe('Shopper Activity', () => {
     done();
   });
 
-  it('should create a cart activity and call request with post', (done) => {
+  it('should create a cart activity and call request with POST', (done) => {
     expect(typeof client.createUpdateCartActivity).toEqual('function');
 
-    client.createUpdateCartActivity(cart, (error, response) => {
+    client.createUpdateCartActivity(payload, (_, response) => {
+      expect(response.statusCode).toBe(202);
+      expect(client.request.callCount).toBe(1);
+    });
+    done();
+  });
+
+  it('should create an order activity and call request with POST', (done) => {
+    expect(typeof client.createUpdateOrderActivity).toEqual('function');
+
+    payload.order_id = '1234';
+    client.createUpdateOrderActivity(payload, (_, response) => {
+      expect(response.statusCode).toBe(202);
+      expect(client.request.callCount).toBe(1);
+    });
+    done();
+  });
+
+  it('should create a product activity and call request with POST', (done) => {
+    expect(typeof client.createUpdateProductActivity).toEqual('function');
+
+    payload.product_variant_id = 'ABC123';
+    payload.product_id = 'XYZ321';
+    payload.price = 90;
+    payload.name = 'Shirt';
+
+    client.createUpdateProductActivity(payload, (_, response) => {
       expect(response.statusCode).toBe(202);
       expect(client.request.callCount).toBe(1);
     });
