@@ -86,6 +86,13 @@ The following methods are currently available on the client instance. You can fi
 | Record a batch of orders             | `client.createUpdateBatchOrders(payload, callback)`                          |
 | Record a refund for an order         | `client.createUpdateRefund(payload, callback)`                               |
 
+### Shopper Activity
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
+| Create or update a cart for a customer | `client.createUpdateCartActivity(payload, callback)`                       |
+| Create or update an order for a customer | `client.createUpdateOrderActivity(payload, callback)`                    |
+| Create or update a product | `client.createUpdateProductActivity(payload, callback)`                                |
+
 ### Subscribers
 | Action                               | Method                                                                       |
 |--------------------------------------|------------------------------------------------------------------------------|
