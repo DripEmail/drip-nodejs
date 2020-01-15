@@ -54,6 +54,6 @@ describe('User with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('user', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/user', {}, undefined);
   });
 });

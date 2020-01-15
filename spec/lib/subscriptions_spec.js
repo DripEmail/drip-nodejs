@@ -56,6 +56,6 @@ describe('Campaign subscriptions with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/subscribers/abc123/campaign_subscriptions', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/subscribers/abc123/campaign_subscriptions', {}, undefined);
   });
 });

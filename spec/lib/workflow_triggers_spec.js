@@ -79,7 +79,7 @@ describe('Workflows with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/workflows/444555/triggers', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/workflows/444555/triggers', {}, undefined);
   });
 
   it('should create a workflow trigger', (done) => {
@@ -93,7 +93,7 @@ describe('Workflows with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/workflows/444555/triggers', { payload: { provider: 'some_app' } }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/workflows/444555/triggers', { triggers: [{ provider: 'some_app' }] }, undefined);
   });
 
   it('should update a workflow trigger', (done) => {
@@ -107,6 +107,6 @@ describe('Workflows with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.put).toHaveBeenCalledWith('9999999/workflows/444555/triggers/df1234', { payload: { provider: 'some_app' } }, undefined);
+    expect(client.put).toHaveBeenCalledWith('v2/9999999/workflows/444555/triggers/df1234', { triggers: [{ provider: 'some_app' }] }, undefined);
   });
 });

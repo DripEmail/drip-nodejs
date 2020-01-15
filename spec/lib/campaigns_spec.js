@@ -107,7 +107,7 @@ describe('Campaigns with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/campaigns/', { qs: {} }, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/campaigns/', { qs: {} }, undefined);
   });
 
   it('should fetch campaign', (done) => {
@@ -121,7 +121,7 @@ describe('Campaigns with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/campaigns/4444444', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/campaigns/4444444', {}, undefined);
   });
 
   it('should activate a campaign', (done) => {
@@ -135,7 +135,7 @@ describe('Campaigns with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/campaigns/4444444/activate', {}, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/campaigns/4444444/activate', {}, undefined);
   });
 
   it('should pause a campaign', (done) => {
@@ -149,7 +149,7 @@ describe('Campaigns with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/campaigns/4444444/pause', {}, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/campaigns/4444444/pause', {}, undefined);
   });
 
   it('should list all subscribers to a campaign', (done) => {
@@ -163,7 +163,7 @@ describe('Campaigns with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/campaigns/4444444/subscribers', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/campaigns/4444444/subscribers', {}, undefined);
   });
 
   it('should list all subscribers to a campaign', (done) => {
@@ -177,6 +177,6 @@ describe('Campaigns with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/campaigns/4444444/subscribers', { payload: {} }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/campaigns/4444444/subscribers', { subscribers: [{}] }, undefined);
   });
 });

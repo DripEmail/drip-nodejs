@@ -64,7 +64,7 @@ describe('Accounts with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('accounts', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/accounts', {}, undefined);
   });
 
   it('should fetch accounts', (done) => {
@@ -78,6 +78,6 @@ describe('Accounts with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('accounts/9999999', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/accounts/9999999', {}, undefined);
   });
 });

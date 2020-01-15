@@ -75,13 +75,13 @@ describe('Events with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/events', { payload: { email: 'test@example.com', action: 'Purchased' } }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/events', { events: [{ email: 'test@example.com', action: 'Purchased' }] }, undefined);
   });
 
   it('should record a batch of events', (done) => {
     expect(typeof client.recordBatchEvents).toEqual('function');
 
-    client.recordBatchEvents({ email: 'test@example.com', action: 'Purchased' })
+    client.recordBatchEvents([{ email: 'test@example.com', action: 'Purchased' }])
       .then((response) => {
         expect(response.statusCode).toBe(200);
         expect(client.request.callCount).toBe(1);
@@ -89,7 +89,7 @@ describe('Events with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('9999999/events/batches', { payload: { email: 'test@example.com', action: 'Purchased' } }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/events/batches', { batches: [{ events: [{ email: 'test@example.com', action: 'Purchased' }] }] }, undefined);
   });
 
   it('should fetch a list of event actions', (done) => {
@@ -103,6 +103,6 @@ describe('Events with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/event_actions/', { qs: {} }, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/event_actions/', { qs: {} }, undefined);
   });
 });

@@ -66,7 +66,7 @@ describe('Forms with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/forms', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/forms', {}, undefined);
   });
 
   it('should fetch a form', (done) => {
@@ -80,6 +80,6 @@ describe('Forms with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('9999999/forms/5555555', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/forms/5555555', {}, undefined);
   });
 });

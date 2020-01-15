@@ -8,6 +8,48 @@ A complete Nodejs wrapper for the Drip REST API.
 
 `npm install drip-nodejs --save`
 
+## NOTE: Potential Breaking Changes for Version 3.0.0
+
+Drip's documentation doesn't explicitly describe the required schema for each endpoint. In versions prior to 3 you would need to explicitly pass payloads with the required schema, which aren't obvious. In version 3 and later, I've attempted to make this a bit simpler. For example, batch endpoints will now only need you to pass an array of objects as:
+
+```js
+payload = [
+  {
+    email: 'user@example.com',
+    action: 'Purchased'
+  },
+  {
+    email: 'user@example.com',
+    action: 'Purchased'
+  }
+]
+// client.recordBatchEvents(payload, ...)
+```
+
+Prior to v3 changes you would need to do something like the following where the entire payload structure is defined:
+
+```js
+payload = {
+  batches: [
+    {
+      events: [
+        {
+          email: 'user@example.com',
+          action: 'Purchased'
+        },
+        {
+          email: 'user@example.com',
+          action: 'Purchased'
+        }
+      ]
+    }
+  ]
+}
+// client.recordBatchEvents(payload, ...)
+```
+
+This should help to get up and running simpler without much knowledge of the required schema. **However, existing users will need to take special note of these changes**.
+
 ## Authentication
 
 For private use and integrations, use your API Token found [here](https://www.getdrip.com/user/edit). Create a new instance of the client library with:
@@ -32,7 +74,7 @@ The following methods are currently available on the client instance. You can fi
 | List all accounts                    | `client.listAccounts(callback)`                                              |
 | Fetch an account                     | `client.fetchAccount(accountId, callback)`                                   |
 
-### Broadcats
+### Broadcasts
 | Action                               | Method                                                                       |
 |--------------------------------------|------------------------------------------------------------------------------|
 | List broadcasts                      | `client.listBroadcasts(options = {}, callback)`                              |
@@ -85,6 +127,13 @@ The following methods are currently available on the client instance. You can fi
 | Record an order for a subscriber     | `client.createUpdateOrder(payload, callback)`                                |
 | Record a batch of orders             | `client.createUpdateBatchOrders(payload, callback)`                          |
 | Record a refund for an order         | `client.createUpdateRefund(payload, callback)`                               |
+
+### Shopper Activity
+| Action                               | Method                                                                       |
+|--------------------------------------|------------------------------------------------------------------------------|
+| Create or update a cart for a customer | `client.createUpdateCartActivity(payload, callback)`                       |
+| Create or update an order for a customer | `client.createUpdateOrderActivity(payload, callback)`                    |
+| Create or update a product | `client.createUpdateProductActivity(payload, callback)`                                |
 
 ### Subscribers
 | Action                               | Method                                                                       |
