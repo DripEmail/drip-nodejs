@@ -150,7 +150,7 @@ describe('Shopper Activity with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('v3/9999999/shopper_activity/cart', { payload }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v3/9999999/shopper_activity/cart', payload, undefined);
   });
 
   it('should create an order activity and call request with POST', (done) => {
@@ -165,7 +165,7 @@ describe('Shopper Activity with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('v3/9999999/shopper_activity/order', { payload }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v3/9999999/shopper_activity/order', payload, undefined);
   });
 
   it('should create a product activity and call request with POST', (done) => {
@@ -184,6 +184,6 @@ describe('Shopper Activity with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('v3/9999999/shopper_activity/product', { payload }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v3/9999999/shopper_activity/product', payload, undefined);
   });
 });
