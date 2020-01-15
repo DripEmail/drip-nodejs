@@ -116,7 +116,7 @@ describe('Webhooks with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('v2/9999999/webhooks', { payload: { hook_details: 'hook value' } }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/webhooks', { webhooks: [{ hook_details: 'hook value' }] }, undefined);
   });
 
   it('should destroy a webhook', (done) => {

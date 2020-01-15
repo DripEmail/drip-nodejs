@@ -177,6 +177,6 @@ describe('Campaigns with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('v2/9999999/campaigns/4444444/subscribers', { payload: {} }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/campaigns/4444444/subscribers', { subscribers: [{}] }, undefined);
   });
 });

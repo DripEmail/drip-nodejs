@@ -4,7 +4,7 @@ const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 
 
 const email = 'someone@example.com';
 const campaignId = 456789;
-const batchPayload = { batches: [{ subscribers: [{ email: 'someone@example.com' }] }] };
+const batchPayload = [{ email: 'someone@example.com' }];
 
 describe('Subscribers with callback', () => {
   describe('non-batch functions', () => {
@@ -206,7 +206,7 @@ describe('Subscribers with callback', () => {
         .catch(failTest);
       done();
 
-      expect(client.post).toHaveBeenCalledWith('v2/9999999/subscribers', { payload: { test_field: 'value' } }, undefined);
+      expect(client.post).toHaveBeenCalledWith('v2/9999999/subscribers', { subscribers: [{ test_field: 'value' }] }, undefined);
     });
 
     it('unsubscribe a batch of subscribers', (done) => {
@@ -220,7 +220,7 @@ describe('Subscribers with callback', () => {
         .catch(failTest);
       done();
 
-      expect(client.post).toHaveBeenCalledWith('v2/9999999/unsubscribes/batches', { payload: { batches: [{ subscribers: [{ email: 'someone@example.com' }] }] } }, undefined);
+      expect(client.post).toHaveBeenCalledWith('v2/9999999/unsubscribes/batches', { batches: [{ subscribers: [{ email: 'someone@example.com' }] }] }, undefined);
     });
 
     it('fetch a subscriber', (done) => {

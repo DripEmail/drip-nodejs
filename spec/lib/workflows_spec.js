@@ -165,7 +165,7 @@ describe('Workflows with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('v2/9999999/workflows/444555/subscribers', { payload: { email: 'test@example.com' } }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/workflows/444555/subscribers', { subscribers: [{ email: 'test@example.com' }] }, undefined);
   });
 
   it('should remove a subscriber on a workflow', (done) => {

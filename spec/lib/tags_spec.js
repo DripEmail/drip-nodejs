@@ -92,7 +92,7 @@ describe('Tags with promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.post).toHaveBeenCalledWith('v2/9999999/tags', { payload: { email, tag: 'Customer' } }, undefined);
+    expect(client.post).toHaveBeenCalledWith('v2/9999999/tags', { tags: [{ email, tag: 'Customer' }] }, undefined);
   });
 
   it('remove a subscriber tag', (done) => {

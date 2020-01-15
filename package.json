@@ -17,7 +17,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/jasmine",
-    "lint": "./node_modules/.bin/eslint lib/** spec/lib/**"
+    "lint": "./node_modules/.bin/eslint ."
   },
   "repository": {
     "type": "git",
