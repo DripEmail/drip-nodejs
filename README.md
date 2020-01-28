@@ -87,7 +87,7 @@ The following methods are currently available on the client instance. You can fi
 | Fetch a campaign                     | `client.fetchCampaign(campaignId, callback)`                                 |
 | Activate a campaign                  | `client.activateCampaign(campaignId, callback)`                              |
 | Pause a campaign                     | `client.pauseCampaign(campaignId, callback)`                                 |
-| List specific campaign's subscribers | `client.listAllSubscribesToCampaign(campaignId, callback)`                   |
+| List specific campaign's subscribers | `client.listAllSubscribesToCampaign(campaignId, options = {}, callback)`                   |
 | Subscribe to a campaign              | `client.subscribeToCampaign(campaignId, payload, callback)`                  |
 
 ### Campaign subscriptions
