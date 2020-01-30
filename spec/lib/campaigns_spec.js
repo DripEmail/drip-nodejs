@@ -56,7 +56,17 @@ describe('Campaigns with callback', () => {
   it('should list all subscribers to a campaign and call request with get', (done) => {
     expect(typeof client.listAllSubscribesToCampaign).toEqual('function');
 
-    client.listAllSubscribesToCampaign(campaignId, (error, response) => {
+    client.listAllSubscribesToCampaign(campaignId, {}, (error, response) => {
+      expect(response.statusCode).toBe(200);
+      expect(client.request.callCount).toBe(1);
+    });
+    done();
+  });
+
+  it('should list all active subscribers to a campaign and call request with get', (done) => {
+    expect(typeof client.listAllSubscribesToCampaign).toEqual('function');
+
+    client.listAllSubscribesToCampaign(campaignId, { status: 'active' }, (error, response) => {
       expect(response.statusCode).toBe(200);
       expect(client.request.callCount).toBe(1);
     });
@@ -155,7 +165,7 @@ describe('Campaigns with Promise', () => {
   it('should list all subscribers to a campaign', (done) => {
     expect(typeof client.listAllSubscribesToCampaign).toEqual('function');
 
-    client.listAllSubscribesToCampaign(campaignId)
+    client.listAllSubscribesToCampaign(campaignId, {})
       .then((response) => {
         expect(response.statusCode).toBe(200);
         expect(client.request.callCount).toBe(1);
@@ -163,7 +173,21 @@ describe('Campaigns with Promise', () => {
       .catch(failTest);
     done();
 
-    expect(client.get).toHaveBeenCalledWith('v2/9999999/campaigns/4444444/subscribers', {}, undefined);
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/campaigns/4444444/subscribers', { qs: {} }, undefined);
+  });
+
+  it('should list all active subscribers to a campaign', (done) => {
+    expect(typeof client.listAllSubscribesToCampaign).toEqual('function');
+
+    client.listAllSubscribesToCampaign(campaignId, { status: 'active' })
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(client.request.callCount).toBe(1);
+      })
+      .catch(failTest);
+    done();
+
+    expect(client.get).toHaveBeenCalledWith('v2/9999999/campaigns/4444444/subscribers', { qs: { status: 'active' } }, undefined);
   });
 
   it('should list all subscribers to a campaign', (done) => {
