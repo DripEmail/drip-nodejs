@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/samudary/drip-nodejs.git"
+    "url": "git+https://github.com/DripEmail/drip-nodejs.git"
   },
   "keywords": [
     "drip",
@@ -34,7 +34,7 @@
   "author": "Robyn-Dale Samuda <robyn@yuraki.com> (https://www.twitter.com/robynsamuda)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/samudary/drip-nodejs/issues"
+    "url": "https://github.com/DripEmail/drip-nodejs/issues"
   },
-  "homepage": "https://github.com/samudary/drip-nodejs#readme"
+  "homepage": "https://github.com/DripEmail/drip-nodejs#readme"
 }
