@@ -1,4 +1,4 @@
-const request = require('request');
+const request = require('axios');
 const sinon = require('sinon');
 const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 
