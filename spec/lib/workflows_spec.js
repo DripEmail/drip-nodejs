@@ -78,7 +78,7 @@ describe('Workflows with callback', () => {
 describe('Workflows with promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       workflows: [{}]
     }
   };

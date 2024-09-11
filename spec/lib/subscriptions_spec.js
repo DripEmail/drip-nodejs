@@ -27,7 +27,7 @@ describe('Campaign subscriptions', () => {
 describe('Campaign subscriptions with promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       campaign_subscripions: [{}]
     }
   };

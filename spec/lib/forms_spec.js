@@ -37,7 +37,7 @@ describe('Forms with callback', () => {
 describe('Forms with promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       forms: [{}]
     }
   };

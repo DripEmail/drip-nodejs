@@ -149,7 +149,7 @@ describe('Subscribers with callback', () => {
         url: 'https://api.getdrip.com/v2/9999999/subscribers/batches',
         headers: client.requestHeaders(),
         json: true,
-        body: {
+        data: {
           batches: [{
             subscribers: [undefined]
           }]
@@ -161,7 +161,7 @@ describe('Subscribers with callback', () => {
   describe('Subscribers with promise', () => {
     const expectedResponse = {
       statusCode: 200,
-      body: {
+      data: {
         subscribers: [{}]
       }
     };

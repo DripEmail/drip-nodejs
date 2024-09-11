@@ -25,7 +25,7 @@ describe('Custom fields with callback', () => {
 describe('Custom fields with Promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       custom_field_identifiers: [{}]
     }
   };

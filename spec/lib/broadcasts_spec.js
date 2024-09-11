@@ -37,7 +37,7 @@ describe('Broadcasts with callback', () => {
 describe('Broadcasts with Promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       broadcasts: [{}]
     }
   };

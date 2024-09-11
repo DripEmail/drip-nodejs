@@ -262,7 +262,7 @@ describe('Orders', () => {
 describe('Orders with Promise', () => {
   const expectedResponse = {
     statusCode: 202,
-    body: {}
+    data: {}
   };
 
   const failTest = (error) => {

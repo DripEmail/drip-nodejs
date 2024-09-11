@@ -205,7 +205,7 @@ const options = {
 
 client.listSubscribers(options)
   .then((response) => {
-    // do something with the raw response object or with `response.body`
+    // do something with the raw response object or with `response.data`
   })
   .catch((error) => {
     // do something with the error
@@ -272,7 +272,7 @@ var batch = {
   }]
 }
 
-client.recordBatchEvents(batch, function (error, response, body) {
+client.recordBatchEvents(batch, function (error, response, data) {
   // Do stuff
   }
 )

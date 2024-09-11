@@ -47,7 +47,7 @@ describe('Tags with callback', () => {
 describe('Tags with promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       tags: [{}]
     }
   };

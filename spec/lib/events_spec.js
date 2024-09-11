@@ -45,7 +45,7 @@ describe('Events', () => {
 describe('Events with Promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       events: [{}]
     }
   };
