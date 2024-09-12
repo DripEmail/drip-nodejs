@@ -57,7 +57,7 @@ describe('Webhooks', () => {
 describe('Webhooks with promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       webhooks: [{}]
     }
   };

@@ -37,7 +37,7 @@ describe('Conversions with callback', () => {
 describe('Conversions with Promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       conversions: [{}]
     }
   };

@@ -205,7 +205,7 @@ const options = {
 
 client.listSubscribers(options)
   .then((response) => {
-    // do something with the raw response object or with `response.body`
+    // do something with the raw response object or with `response.data`
   })
   .catch((error) => {
     // do something with the error
@@ -215,7 +215,7 @@ client.listSubscribers(options)
  * Using a callback
  */
 
-client.listSubscribers(options, (error, response, body) => {
+client.listSubscribers(options, (error, response, data) => {
   // do someting with the response or handle errors
 });
 ```
@@ -272,10 +272,51 @@ var batch = {
   }]
 }
 
-client.recordBatchEvents(batch, function (error, response, body) {
+client.recordBatchEvents(batch, function (error, response, data) {
   // Do stuff
   }
 )
+```
+
+## Changelog
+
+### [3.1.2] - 2024-09-12
+
+**Breaking Changes:**
+
+- **Updated HTTP Client**: We have switched to a Axios client to improve performance and reliability.
+- **Property Name Change**: The `body` property in responses has been renamed to `data` to ensure compatibility with the new client and align with modern conventions.
+
+  - Old: `response.body`
+  - New: `response.data`
+
+Please update your code accordingly. Example update:
+
+```js
+// Old usage
+const result = response.body;
+
+// New usage
+const result = response.data;
+
+// EXAMPLE
+const client = require('drip-nodejs')({ token: YOUR_API_KEY, accountId: YOUR_ACCOUNT_ID });
+const payload = {
+  email: "john@acme.com",
+  time_zone: "America/Los_Angeles",
+  custom_fields: {
+    shirt_size: "Medium"
+  }
+};
+
+client.createUpdateSubscriber(payload)
+  .then((response) => {
+    console.log(response.data)
+  })
+  .catch((error) => {
+    // Handle errors
+  });
+
 ```
 
 ## Contributing

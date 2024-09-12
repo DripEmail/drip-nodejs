@@ -1,4 +1,4 @@
-const request = require('request');
+const request = require('axios');
 const sinon = require('sinon');
 const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 
@@ -148,8 +148,8 @@ describe('Subscribers with callback', () => {
       expect(request.post).toHaveBeenCalledWith({
         url: 'https://api.getdrip.com/v2/9999999/subscribers/batches',
         headers: client.requestHeaders(),
-        json: true,
-        body: {
+        responseType: 'json',
+        data: {
           batches: [{
             subscribers: [undefined]
           }]
@@ -161,7 +161,7 @@ describe('Subscribers with callback', () => {
   describe('Subscribers with promise', () => {
     const expectedResponse = {
       statusCode: 200,
-      body: {
+      data: {
         subscribers: [{}]
       }
     };

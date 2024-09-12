@@ -87,7 +87,7 @@ describe('Campaigns with callback', () => {
 describe('Campaigns with Promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       campaigns: [{}]
     }
   };

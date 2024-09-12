@@ -25,7 +25,7 @@ describe('User with callback', () => {
 describe('User with promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       users: [{}]
     }
   };

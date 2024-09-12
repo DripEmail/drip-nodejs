@@ -35,7 +35,7 @@ describe('Accounts with callback', () => {
 describe('Accounts with Promise', () => {
   const expectedResponse = {
     statusCode: 200,
-    body: {
+    data: {
       accounts: [{}]
     }
   };
