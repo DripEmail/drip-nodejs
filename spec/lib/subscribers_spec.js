@@ -148,7 +148,7 @@ describe('Subscribers with callback', () => {
       expect(request.post).toHaveBeenCalledWith({
         url: 'https://api.getdrip.com/v2/9999999/subscribers/batches',
         headers: client.requestHeaders(),
-        json: true,
+        responseType: 'json',
         data: {
           batches: [{
             subscribers: [undefined]
