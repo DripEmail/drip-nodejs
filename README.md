@@ -285,6 +285,10 @@ client.recordBatchEvents(batch, function (error, response, data) {
 
 ## Changelog
 
+### [3.1.3] - 2024-11-05
+
+- Bug fix in `updateBatchSubscribers`
+
 ### [3.1.2] - 2024-09-12
 
 **Breaking Changes:**
