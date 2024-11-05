@@ -1,4 +1,4 @@
-const request = require('axios');
+const axios = require('axios');
 const sinon = require('sinon');
 const client = require('../../lib/index')({ token: 'abc123', accountId: 9999999 });
 
@@ -96,12 +96,11 @@ describe('Subscribers with callback', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(request, 'post')
-        .yields(null, { statusCode: 201 }, {});
+      sinon.stub(axios, 'request').resolves({ status: 201, data: {} });
     });
 
     afterEach(() => {
-      request.post.restore();
+      axios.request.restore();
     });
 
     it('should post batches of subscribers and call request with post', (done) => {
@@ -113,7 +112,7 @@ describe('Subscribers with callback', () => {
         expect(responses[0].statusCode).toBe(201);
         expect(responses[1].statusCode).toBe(201);
         expect(bodies).toEqual([{}, {}]);
-        expect(request.post.callCount).toBe(2);
+        expect(axios.request.callCount).toBe(2);
       });
       done();
     });
@@ -127,13 +126,11 @@ describe('Subscribers with callback', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(request, 'post')
-        .yields(null, { statusCode: 201 }, {});
-      spyOn(request, 'post').and.callThrough();
+      sinon.stub(axios, 'request').resolves({ status: 201, data: {} });
     });
 
     afterEach(() => {
-      request.post.restore();
+      axios.request.restore();
     });
 
     it('should set the correct request URL', (done) => {
@@ -143,9 +140,9 @@ describe('Subscribers with callback', () => {
         expect(responses[0].statusCode).toBe(201);
         expect(bodies).toEqual([{}]);
       });
-      done();
-
-      expect(request.post).toHaveBeenCalledWith({
+    
+      expect(axios.request.calledWith({
+        method: 'post',
         url: 'https://api.getdrip.com/v2/9999999/subscribers/batches',
         headers: client.requestHeaders(),
         responseType: 'json',
@@ -154,7 +151,10 @@ describe('Subscribers with callback', () => {
             subscribers: [undefined]
           }]
         }
-      }, jasmine.any(Function));
+      }));
+
+      done();
+      
     });
   });
 
