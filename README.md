@@ -245,10 +245,15 @@ var batch = {
   }]
 }
 
-client.updateBatchSubscribers(batch, function (errors, responses, bodies) {
-  // Do stuff
-  }
-)
+client.updateBatchSubscribers(batch, (errors, responses, bodies) => {
+    if (errors) {
+      console.error('Some requests failed:', errors);
+    } else {
+      console.log('All requests succeeded');
+    }
+    console.log('Responses:', responses);
+    console.log('Bodies:', bodies);
+  });
 ```
 
 ### Sending a batch of events
