@@ -285,6 +285,10 @@ client.recordBatchEvents(batch, function (error, response, data) {
 
 ## Changelog
 
+### [3.1.4] - 2025-03-13
+
+- Security update for axios [CVE-2024-39338](https://github.com/axios/axios/issues/6463)
+
 ### [3.1.3] - 2024-11-05
 
 - Bug fix in `updateBatchSubscribers`
