@@ -4,7 +4,7 @@
   "description": "A complete NodeJS wrapper for connecting to the Drip v2 REST API",
   "main": "./lib/index.js",
   "dependencies": {
-    "axios": "^1.7.7"
+    "axios": "^1.8.2"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
